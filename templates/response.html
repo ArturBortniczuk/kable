@@ -27,10 +27,10 @@
                                     </div>
                                 </div>
                                 {% if query.query_comments %}
-                                    <div class="alert alert-info mt-2">
-                                        <b>Uwagi ogólne do zapytania:</b><br>
-                                        {{ query.query_comments }}
-                                    </div>
+                                <div class="alert alert-info mt-2">
+                                    <b>Uwagi ogólne do zapytania:</b><br>
+                                    {{ query.query_comments }}
+                                </div>
                                 {% endif %}
                             </div>
                         </div>
@@ -85,11 +85,9 @@
                                         <div class="form-group">
                                             <label>Orientacyjna cena zakupu netto:</label>
                                             <div class="input-group">
-                                                <input type="number"
-                                                       step="0.01"
-                                                       min="0"
-                                                       name="cable_responses-{{ loop.index0 }}-price_per_meter_purchase"
-                                                       class="form-control">
+                                                <input type="number" step="0.01" min="0"
+                                                    name="cable_responses-{{ loop.index0 }}-price_per_meter_purchase"
+                                                    class="form-control">
                                                 <span class="input-group-text">PLN/km</span>
                                             </div>
                                         </div>
@@ -98,73 +96,116 @@
                                         <div class="form-group">
                                             <label>Sugerowana cena sprzedaży netto:</label>
                                             <div class="input-group">
-                                                <input type="number"
-                                                       step="0.01"
-                                                       min="0"
-                                                       name="cable_responses-{{ loop.index0 }}-price_per_meter_client"
-                                                       class="form-control">
+                                                <input type="number" step="0.01" min="0"
+                                                    name="cable_responses-{{ loop.index0 }}-price_per_meter_client"
+                                                    class="form-control">
                                                 <span class="input-group-text">PLN/km</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-<!-- W sekcji z ceną zakupu, dodaj: -->
+                                <!-- W sekcji z ceną zakupu, dodaj: -->
                                 <div class="form-group mb-3">
                                     <label>Producent</label>
                                     <div class="btn-group d-flex flex-wrap" role="group">
-                                        <input type="radio" class="btn-check" name="cable_responses-{{ loop.index0 }}-manufacturer" id="man1-{{ loop.index0 }}" value="NKT" required>
+                                        <input type="radio" class="btn-check"
+                                            name="cable_responses-{{ loop.index0 }}-manufacturer"
+                                            id="man1-{{ loop.index0 }}" value="NKT" required>
                                         <label class="btn btn-outline-primary" for="man1-{{ loop.index0 }}">NKT</label>
 
-                                        <input type="radio" class="btn-check" name="cable_responses-{{ loop.index0 }}-manufacturer" id="man2-{{ loop.index0 }}" value="Bitner">
-                                        <label class="btn btn-outline-primary" for="man2-{{ loop.index0 }}">Bitner</label>
+                                        <input type="radio" class="btn-check"
+                                            name="cable_responses-{{ loop.index0 }}-manufacturer"
+                                            id="man2-{{ loop.index0 }}" value="Bitner">
+                                        <label class="btn btn-outline-primary"
+                                            for="man2-{{ loop.index0 }}">Bitner</label>
 
-                                        <input type="radio" class="btn-check" name="cable_responses-{{ loop.index0 }}-manufacturer" id="man3-{{ loop.index0 }}" value="Eltrim">
-                                        <label class="btn btn-outline-primary" for="man3-{{ loop.index0 }}">Eltrim</label>
+                                        <input type="radio" class="btn-check"
+                                            name="cable_responses-{{ loop.index0 }}-manufacturer"
+                                            id="man3-{{ loop.index0 }}" value="Eltrim">
+                                        <label class="btn btn-outline-primary"
+                                            for="man3-{{ loop.index0 }}">Eltrim</label>
 
-                                        <input type="radio" class="btn-check" name="cable_responses-{{ loop.index0 }}-manufacturer" id="man4-{{ loop.index0 }}" value="Elektrokabel">
-                                        <label class="btn btn-outline-primary" for="man4-{{ loop.index0 }}">Elektrokabel</label>
+                                        <input type="radio" class="btn-check"
+                                            name="cable_responses-{{ loop.index0 }}-manufacturer"
+                                            id="man4-{{ loop.index0 }}" value="Elektrokabel">
+                                        <label class="btn btn-outline-primary"
+                                            for="man4-{{ loop.index0 }}">Elektrokabel</label>
 
-                                        <input type="radio" class="btn-check" name="cable_responses-{{ loop.index0 }}-manufacturer" id="man5-{{ loop.index0 }}" value="Technokabel">
-                                        <label class="btn btn-outline-primary" for="man5-{{ loop.index0 }}">Technokabel</label>
+                                        <input type="radio" class="btn-check"
+                                            name="cable_responses-{{ loop.index0 }}-manufacturer"
+                                            id="man5-{{ loop.index0 }}" value="Technokabel">
+                                        <label class="btn btn-outline-primary"
+                                            for="man5-{{ loop.index0 }}">Technokabel</label>
 
-                                        <input type="radio" class="btn-check" name="cable_responses-{{ loop.index0 }}-manufacturer" id="man6-{{ loop.index0 }}" value="Tele-Fonika">
-                                        <label class="btn btn-outline-primary" for="man6-{{ loop.index0 }}">Tele-Fonika</label>
+                                        <input type="radio" class="btn-check"
+                                            name="cable_responses-{{ loop.index0 }}-manufacturer"
+                                            id="man6-{{ loop.index0 }}" value="Tele-Fonika">
+                                        <label class="btn btn-outline-primary"
+                                            for="man6-{{ loop.index0 }}">Tele-Fonika</label>
 
-                                        <input type="radio" class="btn-check" name="cable_responses-{{ loop.index0 }}-manufacturer" id="man7-{{ loop.index0 }}" value="ELPAR">
-                                        <label class="btn btn-outline-primary" for="man7-{{ loop.index0 }}">ELPAR</label>
+                                        <input type="radio" class="btn-check"
+                                            name="cable_responses-{{ loop.index0 }}-manufacturer"
+                                            id="man7-{{ loop.index0 }}" value="ELPAR">
+                                        <label class="btn btn-outline-primary"
+                                            for="man7-{{ loop.index0 }}">ELPAR</label>
 
-                                        <input type="radio" class="btn-check" name="cable_responses-{{ loop.index0 }}-manufacturer" id="man8-{{ loop.index0 }}" value="NPA Skawina">
-                                        <label class="btn btn-outline-primary" for="man8-{{ loop.index0 }}">NPA Skawina</label>
+                                        <input type="radio" class="btn-check"
+                                            name="cable_responses-{{ loop.index0 }}-manufacturer"
+                                            id="man8-{{ loop.index0 }}" value="NPA Skawina">
+                                        <label class="btn btn-outline-primary" for="man8-{{ loop.index0 }}">NPA
+                                            Skawina</label>
                                     </div>
                                 </div>
                                 <!-- Termin dostawy -->
                                 <div class="form-group mb-3">
                                     <label class="mb-2">Termin dostawy</label>
                                     <div class="btn-group d-flex flex-wrap" role="group">
-                                        <input type="radio" class="btn-check" name="cable_responses-{{ loop.index0 }}-delivery_option" id="delivery7-{{ loop.index0 }}" value="7dni" required>
-                                        <label class="btn btn-outline-primary" for="delivery7-{{ loop.index0 }}">7 dni roboczych</label>
+                                        <input type="radio" class="btn-check"
+                                            name="cable_responses-{{ loop.index0 }}-delivery_option"
+                                            id="delivery7-{{ loop.index0 }}" value="7dni" required>
+                                        <label class="btn btn-outline-primary" for="delivery7-{{ loop.index0 }}">7 dni
+                                            roboczych</label>
 
-                                        <input type="radio" class="btn-check" name="cable_responses-{{ loop.index0 }}-delivery_option" id="delivery14-{{ loop.index0 }}" value="14dni">
-                                        <label class="btn btn-outline-primary" for="delivery14-{{ loop.index0 }}">14 dni roboczych</label>
+                                        <input type="radio" class="btn-check"
+                                            name="cable_responses-{{ loop.index0 }}-delivery_option"
+                                            id="delivery14-{{ loop.index0 }}" value="14dni">
+                                        <label class="btn btn-outline-primary" for="delivery14-{{ loop.index0 }}">14 dni
+                                            roboczych</label>
 
-                                        <input type="radio" class="btn-check" name="cable_responses-{{ loop.index0 }}-delivery_option" id="delivery30-{{ loop.index0 }}" value="30dni">
-                                        <label class="btn btn-outline-primary" for="delivery30-{{ loop.index0 }}">30 dni roboczych</label>
+                                        <input type="radio" class="btn-check"
+                                            name="cable_responses-{{ loop.index0 }}-delivery_option"
+                                            id="delivery30-{{ loop.index0 }}" value="30dni">
+                                        <label class="btn btn-outline-primary" for="delivery30-{{ loop.index0 }}">30 dni
+                                            roboczych</label>
 
-                                        <input type="radio" class="btn-check" name="cable_responses-{{ loop.index0 }}-delivery_option" id="deliveryZ-{{ loop.index0 }}" value="zielonka">
-                                        <label class="btn btn-outline-success" for="deliveryZ-{{ loop.index0 }}">Dostępne Zielonka</label>
+                                        <input type="radio" class="btn-check"
+                                            name="cable_responses-{{ loop.index0 }}-delivery_option"
+                                            id="deliveryZ-{{ loop.index0 }}" value="zielonka">
+                                        <label class="btn btn-outline-success"
+                                            for="deliveryZ-{{ loop.index0 }}">Dostępne Zielonka</label>
 
-                                        <input type="radio" class="btn-check" name="cable_responses-{{ loop.index0 }}-delivery_option" id="deliveryB-{{ loop.index0 }}" value="bialystok">
-                                        <label class="btn btn-outline-success" for="deliveryB-{{ loop.index0 }}">Dostępne Białystok</label>
+                                        <input type="radio" class="btn-check"
+                                            name="cable_responses-{{ loop.index0 }}-delivery_option"
+                                            id="deliveryB-{{ loop.index0 }}" value="bialystok">
+                                        <label class="btn btn-outline-success"
+                                            for="deliveryB-{{ loop.index0 }}">Dostępne Białystok</label>
 
-                                        <input type="radio" class="btn-check" name="cable_responses-{{ loop.index0 }}-delivery_option" id="deliveryD-{{ loop.index0 }}" value="depozyt">
-                                        <label class="btn btn-outline-info" for="deliveryD-{{ loop.index0 }}">Depozyt</label>
-                                        <input type="radio" class="btn-check delivery-option" name="cable_responses-{{ loop.index0 }}-delivery_option" id="deliveryCustom-{{ loop.index0 }}" value="custom">
-                                        <label class="btn btn-outline-primary" for="deliveryCustom-{{ loop.index0 }}">Własna data</label>
+                                        <input type="radio" class="btn-check"
+                                            name="cable_responses-{{ loop.index0 }}-delivery_option"
+                                            id="deliveryD-{{ loop.index0 }}" value="depozyt">
+                                        <label class="btn btn-outline-info"
+                                            for="deliveryD-{{ loop.index0 }}">Depozyt</label>
+                                        <input type="radio" class="btn-check delivery-option"
+                                            name="cable_responses-{{ loop.index0 }}-delivery_option"
+                                            id="deliveryCustom-{{ loop.index0 }}" value="custom">
+                                        <label class="btn btn-outline-primary"
+                                            for="deliveryCustom-{{ loop.index0 }}">Własna data</label>
                                     </div>
 
                                     <div class="custom-delivery-date mt-2" style="display: none;">
                                         {{ cable_response_form.delivery_date.label(class="form-label") }}
-                                        {{ cable_response_form.delivery_date(class="form-control custom-delivery-date") }}
+                                        {{ cable_response_form.delivery_date(class="form-control custom-delivery-date")
+                                        }}
                                     </div>
                                 </div>
 
@@ -172,24 +213,37 @@
                                 <div class="form-group mb-3">
                                     <label class="mb-2">Ważność oferty</label>
                                     <div class="btn-group d-flex flex-wrap" role="group">
-                                        <input type="radio" class="btn-check" name="cable_responses-{{ loop.index0 }}-validity_option" id="validity2-{{ loop.index0 }}" value="2dni" required>
-                                        <label class="btn btn-outline-primary" for="validity2-{{ loop.index0 }}">2 dni</label>
+                                        <input type="radio" class="btn-check"
+                                            name="cable_responses-{{ loop.index0 }}-validity_option"
+                                            id="validity2-{{ loop.index0 }}" value="2dni" required>
+                                        <label class="btn btn-outline-primary" for="validity2-{{ loop.index0 }}">2
+                                            dni</label>
 
-                                        <input type="radio" class="btn-check" name="cable_responses-{{ loop.index0 }}-validity_option" id="validity7-{{ loop.index0 }}" value="7dni">
-                                        <label class="btn btn-outline-primary" for="validity7-{{ loop.index0 }}">7 dni</label>
+                                        <input type="radio" class="btn-check"
+                                            name="cable_responses-{{ loop.index0 }}-validity_option"
+                                            id="validity7-{{ loop.index0 }}" value="7dni">
+                                        <label class="btn btn-outline-primary" for="validity7-{{ loop.index0 }}">7
+                                            dni</label>
 
-                                        <input type="radio" class="btn-check" name="cable_responses-{{ loop.index0 }}-validity_option" id="validity14-{{ loop.index0 }}" value="14dni">
-                                        <label class="btn btn-outline-primary" for="validity14-{{ loop.index0 }}">14 dni</label>
+                                        <input type="radio" class="btn-check"
+                                            name="cable_responses-{{ loop.index0 }}-validity_option"
+                                            id="validity14-{{ loop.index0 }}" value="14dni">
+                                        <label class="btn btn-outline-primary" for="validity14-{{ loop.index0 }}">14
+                                            dni</label>
 
-                                        <input type="radio" class="btn-check" name="cable_responses-{{ loop.index0 }}-validity_option" id="validity21-{{ loop.index0 }}" value="21dni">
-                                        <label class="btn btn-outline-primary" for="validity21-{{ loop.index0 }}">21 dni</label>
+                                        <input type="radio" class="btn-check"
+                                            name="cable_responses-{{ loop.index0 }}-validity_option"
+                                            id="validity21-{{ loop.index0 }}" value="21dni">
+                                        <label class="btn btn-outline-primary" for="validity21-{{ loop.index0 }}">21
+                                            dni</label>
                                     </div>
                                 </div>
 
                                 <!-- Uwagi -->
                                 <div class="form-group">
                                     <label>Uwagi</label>
-                                    <textarea name="cable_responses-{{ loop.index0 }}-comments" class="form-control" rows="2"></textarea>
+                                    <textarea name="cable_responses-{{ loop.index0 }}-comments" class="form-control"
+                                        rows="2"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -197,7 +251,7 @@
 
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">Wyślij odpowiedź</button>
-                            <a href="{{ url_for('index') }}" class="btn btn-secondary">Anuluj</a>
+                            <a href="{{ url_for('main.index') }}" class="btn btn-secondary">Anuluj</a>
                         </div>
                     </form>
                 </div>

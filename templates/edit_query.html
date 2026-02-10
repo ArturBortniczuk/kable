@@ -15,44 +15,44 @@
 
                         <!-- Podstawowe informacje -->
                         {% if not session.get('is_admin') %}
-                            <input type="hidden" name="market" value="{{ session.get('market') }}">
-                            <input type="hidden" name="name" value="{{ session.get('username') }}">
-                            <div class="mb-3">
-                                <label class="form-label">Rynek</label>
-                                <input type="text" class="form-control" value="{{ session.get('market') }}" disabled>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Handlowiec</label>
-                                <input type="text" class="form-control" value="{{ session.get('username') }}" disabled>
-                            </div>
+                        <input type="hidden" name="market" value="{{ session.get('market') }}">
+                        <input type="hidden" name="name" value="{{ session.get('username') }}">
+                        <div class="mb-3">
+                            <label class="form-label">Rynek</label>
+                            <input type="text" class="form-control" value="{{ session.get('market') }}" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Handlowiec</label>
+                            <input type="text" class="form-control" value="{{ session.get('username') }}" disabled>
+                        </div>
                         {% else %}
-                            <div class="mb-3">
-                                {{ form.market.label(class="form-label") }}
-                                {{ form.market(class="form-select") }}
-                                {% if form.market.errors %}
-                                    {% for error in form.market.errors %}
-                                        <div class="invalid-feedback d-block">{{ error }}</div>
-                                    {% endfor %}
-                                {% endif %}
-                            </div>
-                            <div class="mb-3">
-                                {{ form.name.label(class="form-label") }}
-                                {{ form.name(class="form-select") }}
-                                {% if form.name.errors %}
-                                    {% for error in form.name.errors %}
-                                        <div class="invalid-feedback d-block">{{ error }}</div>
-                                    {% endfor %}
-                                {% endif %}
-                            </div>
+                        <div class="mb-3">
+                            {{ form.market.label(class="form-label") }}
+                            {{ form.market(class="form-select") }}
+                            {% if form.market.errors %}
+                            {% for error in form.market.errors %}
+                            <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.name.label(class="form-label") }}
+                            {{ form.name(class="form-select") }}
+                            {% if form.name.errors %}
+                            {% for error in form.name.errors %}
+                            <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
                         {% endif %}
 
                         <div class="mb-3">
                             {{ form.client.label(class="form-label") }}
                             {{ form.client(class="form-control") }}
                             {% if form.client.errors %}
-                                {% for error in form.client.errors %}
-                                    <div class="invalid-feedback d-block">{{ error }}</div>
-                                {% endfor %}
+                            {% for error in form.client.errors %}
+                            <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
                             {% endif %}
                         </div>
 
@@ -60,9 +60,9 @@
                             {{ form.investment.label(class="form-label") }}
                             {{ form.investment(class="form-control", placeholder="Opcjonalnie") }}
                             {% if form.investment.errors %}
-                                {% for error in form.investment.errors %}
-                                    <div class="invalid-feedback d-block">{{ error }}</div>
-                                {% endfor %}
+                            {% for error in form.investment.errors %}
+                            <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
                             {% endif %}
                         </div>
 
@@ -79,9 +79,9 @@
                                             {{ cable_form.cable_type.label(class="form-label") }}
                                             {{ cable_form.cable_type(class="form-control cable-type-input") }}
                                             {% if cable_form.cable_type.errors %}
-                                                {% for error in cable_form.cable_type.errors %}
-                                                    <div class="invalid-feedback d-block">{{ error }}</div>
-                                                {% endfor %}
+                                            {% for error in cable_form.cable_type.errors %}
+                                            <div class="invalid-feedback d-block">{{ error }}</div>
+                                            {% endfor %}
                                             {% endif %}
                                         </div>
 
@@ -89,14 +89,20 @@
                                         <div class="mb-3 voltage-buttons" style="display: none;">
                                             <label class="form-label">Napięcie:</label>
                                             <div class="btn-group d-flex" role="group">
-                                                <input type="radio" class="btn-check" name="voltage-{{ loop.index0 }}" id="v1-{{ loop.index0 }}" value="12/20">
-                                                <label class="btn btn-outline-primary" for="v1-{{ loop.index0 }}">12/20kV</label>
+                                                <input type="radio" class="btn-check" name="voltage-{{ loop.index0 }}"
+                                                    id="v1-{{ loop.index0 }}" value="12/20">
+                                                <label class="btn btn-outline-primary"
+                                                    for="v1-{{ loop.index0 }}">12/20kV</label>
 
-                                                <input type="radio" class="btn-check" name="voltage-{{ loop.index0 }}" id="v2-{{ loop.index0 }}" value="18/30">
-                                                <label class="btn btn-outline-primary" for="v2-{{ loop.index0 }}">18/30kV</label>
+                                                <input type="radio" class="btn-check" name="voltage-{{ loop.index0 }}"
+                                                    id="v2-{{ loop.index0 }}" value="18/30">
+                                                <label class="btn btn-outline-primary"
+                                                    for="v2-{{ loop.index0 }}">18/30kV</label>
 
-                                                <input type="radio" class="btn-check" name="voltage-{{ loop.index0 }}" id="v3-{{ loop.index0 }}" value="other">
-                                                <label class="btn btn-outline-primary" for="v3-{{ loop.index0 }}">inne (wpisz w uwagach)</label>
+                                                <input type="radio" class="btn-check" name="voltage-{{ loop.index0 }}"
+                                                    id="v3-{{ loop.index0 }}" value="other">
+                                                <label class="btn btn-outline-primary" for="v3-{{ loop.index0 }}">inne
+                                                    (wpisz w uwagach)</label>
                                             </div>
                                         </div>
 
@@ -104,9 +110,9 @@
                                             {{ cable_form.length.label(class="form-label") }}
                                             {{ cable_form.length(class="form-control") }}
                                             {% if cable_form.length.errors %}
-                                                {% for error in cable_form.length.errors %}
-                                                    <div class="invalid-feedback d-block">{{ error }}</div>
-                                                {% endfor %}
+                                            {% for error in cable_form.length.errors %}
+                                            <div class="invalid-feedback d-block">{{ error }}</div>
+                                            {% endfor %}
                                             {% endif %}
                                         </div>
 
@@ -114,33 +120,40 @@
                                             {{ cable_form.packaging.label(class="form-label") }}
                                             {{ cable_form.packaging(class="form-select") }}
                                             {% if cable_form.packaging.errors %}
-                                                {% for error in cable_form.packaging.errors %}
-                                                    <div class="invalid-feedback d-block">{{ error }}</div>
-                                                {% endfor %}
+                                            {% for error in cable_form.packaging.errors %}
+                                            <div class="invalid-feedback d-block">{{ error }}</div>
+                                            {% endfor %}
                                             {% endif %}
                                         </div>
 
                                         <div class="mb-3 specific-lengths-field" style="display: none;">
                                             <label class="form-label">Dokładne odcinki</label>
                                             <div class="alert alert-info small mb-2">
-                                                Podaj długości i ilości odcinków. Suma wszystkich odcinków zostanie automatycznie wpisana jako całkowita długość kabla.
+                                                Podaj długości i ilości odcinków. Suma wszystkich odcinków zostanie
+                                                automatycznie wpisana jako całkowita długość kabla.
                                             </div>
 
                                             <!-- Kontener na sekcje z odcinkami -->
                                             <div class="length-sections-container mb-3">
                                                 <div class="length-section d-flex gap-2 align-items-center mb-2">
-                                                    <input type="number" class="form-control form-control-sm length-value" placeholder="Długość odcinka (m)" min="1">
-                                                    <input type="number" class="form-control form-control-sm length-quantity" placeholder="Ilość odcinków" min="1">
+                                                    <input type="number"
+                                                        class="form-control form-control-sm length-value"
+                                                        placeholder="Długość odcinka (m)" min="1">
+                                                    <input type="number"
+                                                        class="form-control form-control-sm length-quantity"
+                                                        placeholder="Ilość odcinków" min="1">
                                                 </div>
                                             </div>
 
                                             <!-- Przycisk dodawania nowych sekcji -->
-                                            <button type="button" class="btn btn-secondary btn-sm mb-2" onclick="addLengthSection(this.parentElement.querySelector('.length-sections-container'))">
+                                            <button type="button" class="btn btn-secondary btn-sm mb-2"
+                                                onclick="addLengthSection(this.parentElement.querySelector('.length-sections-container'))">
                                                 Dodaj kolejny rodzaj odcinka
                                             </button>
 
                                             <!-- Ukryte pole tekstowe na wynik -->
-                                            {{ cable_form.specific_lengths(class="form-control", style="display: none;") }}
+                                            {{ cable_form.specific_lengths(class="form-control", style="display: none;")
+                                            }}
                                         </div>
 
                                         <div class="mb-3 comments-field">
@@ -149,13 +162,14 @@
                                         </div>
 
                                         {% if not loop.first %}
-                                            <button type="button" class="btn btn-danger remove-cable">Usuń kabel</button>
+                                        <button type="button" class="btn btn-danger remove-cable">Usuń kabel</button>
                                         {% endif %}
                                     </div>
                                 </div>
                                 {% endfor %}
                             </div>
-                            <button type="button" class="btn btn-secondary mb-3" id="add-cable">Dodaj kolejny kabel</button>
+                            <button type="button" class="btn btn-secondary mb-3" id="add-cable">Dodaj kolejny
+                                kabel</button>
                         </div>
 
                         <!-- Pozostałe pola -->
@@ -163,9 +177,9 @@
                             {{ form.preferred_date.label(class="form-label") }}
                             {{ form.preferred_date(class="form-control", type="date") }}
                             {% if form.preferred_date.errors %}
-                                {% for error in form.preferred_date.errors %}
-                                    <div class="invalid-feedback d-block">{{ error }}</div>
-                                {% endfor %}
+                            {% for error in form.preferred_date.errors %}
+                            <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
                             {% endif %}
                         </div>
 
@@ -173,15 +187,15 @@
                             {{ form.comments.label(class="form-label") }}
                             {{ form.comments(class="form-control", rows="3") }}
                             {% if form.comments.errors %}
-                                {% for error in form.comments.errors %}
-                                    <div class="invalid-feedback d-block">{{ error }}</div>
-                                {% endfor %}
+                            {% for error in form.comments.errors %}
+                            <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
                             {% endif %}
                         </div>
 
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
-                            <a href="{{ url_for('index') }}" class="btn btn-secondary">Anuluj</a>
+                            <a href="{{ url_for('main.index') }}" class="btn btn-secondary">Anuluj</a>
                         </div>
                     </form>
                 </div>
@@ -193,211 +207,212 @@
 
 {% block scripts %}
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-   // Inicjalizacja dynamicznego wyboru handlowców
-   const marketSelect = document.querySelector('select[name="market"]');
-   const nameSelect = document.querySelector('select[name="name"]');
-   const salespersonsData = {{ salespersons_by_market|safe }};
+    document.addEventListener('DOMContentLoaded', function () {
+        // Inicjalizacja dynamicznego wyboru handlowców
+        const marketSelect = document.querySelector('select[name="market"]');
+        const nameSelect = document.querySelector('select[name="name"]');
+        const salespersonsData = {{ salespersons_by_market| safe
+    }};
 
-   // Funkcja do aktualizacji listy handlowców
-   function updateSalespersonsList(market) {
-       nameSelect.innerHTML = '';
+    // Funkcja do aktualizacji listy handlowców
+    function updateSalespersonsList(market) {
+        nameSelect.innerHTML = '';
 
-       if (!market) {
-           const defaultOption = document.createElement('option');
-           defaultOption.value = '';
-           defaultOption.textContent = 'Najpierw wybierz rynek';
-           nameSelect.appendChild(defaultOption);
-       } else {
-           const salespersons = salespersonsData[market] || [];
+        if (!market) {
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = 'Najpierw wybierz rynek';
+            nameSelect.appendChild(defaultOption);
+        } else {
+            const salespersons = salespersonsData[market] || [];
 
-           const defaultOption = document.createElement('option');
-           defaultOption.value = '';
-           defaultOption.textContent = 'Wybierz handlowca';
-           nameSelect.appendChild(defaultOption);
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = 'Wybierz handlowca';
+            nameSelect.appendChild(defaultOption);
 
-           salespersons.forEach(salesperson => {
-               const option = document.createElement('option');
-               option.value = salesperson;
-               option.textContent = salesperson;
-               nameSelect.appendChild(option);
-           });
-       }
-   }
+            salespersons.forEach(salesperson => {
+                const option = document.createElement('option');
+                option.value = salesperson;
+                option.textContent = salesperson;
+                nameSelect.appendChild(option);
+            });
+        }
+    }
 
-   // Nasłuchuj zmiany w select rynku
-   if (marketSelect) {
-       marketSelect.addEventListener('change', function() {
-           updateSalespersonsList(this.value);
-       });
-   }
+    // Nasłuchuj zmiany w select rynku
+    if (marketSelect) {
+        marketSelect.addEventListener('change', function () {
+            updateSalespersonsList(this.value);
+        });
+    }
 
-   function handleCableTypeChange(input) {
-       const cableForm = input.closest('.cable-form');
-       const voltageButtons = cableForm.querySelector('.voltage-buttons');
-       const commentsField = cableForm.querySelector('.comments-field');
-       const value = input.value.toUpperCase();
+    function handleCableTypeChange(input) {
+        const cableForm = input.closest('.cable-form');
+        const voltageButtons = cableForm.querySelector('.voltage-buttons');
+        const commentsField = cableForm.querySelector('.comments-field');
+        const value = input.value.toUpperCase();
 
-       if (value.includes('XRU') || value.includes('XNRU')) {
-           voltageButtons.style.display = 'block';
+        if (value.includes('XRU') || value.includes('XNRU')) {
+            voltageButtons.style.display = 'block';
 
-           // Reset stanu przycisków
-           voltageButtons.querySelectorAll('input[type="radio"]').forEach(radio => {
-               radio.checked = false;
-           });
+            // Reset stanu przycisków
+            voltageButtons.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.checked = false;
+            });
 
-           // Reset pola komentarzy
-           commentsField.querySelector('textarea').required = false;
-           commentsField.querySelector('textarea').value = '';
+            // Reset pola komentarzy
+            commentsField.querySelector('textarea').required = false;
+            commentsField.querySelector('textarea').value = '';
 
-       } else {
-           voltageButtons.style.display = 'none';
-           commentsField.querySelector('textarea').required = false;
-       }
-   }
+        } else {
+            voltageButtons.style.display = 'none';
+            commentsField.querySelector('textarea').required = false;
+        }
+    }
 
-   function handlePackagingChange(packagingSelect) {
-       const cableForm = packagingSelect.closest('.cable-form');
-       const specificLengthsField = cableForm.querySelector('.specific-lengths-field');
+    function handlePackagingChange(packagingSelect) {
+        const cableForm = packagingSelect.closest('.cable-form');
+        const specificLengthsField = cableForm.querySelector('.specific-lengths-field');
 
-       if (packagingSelect.value === 'dokładne odcinki') {
-           specificLengthsField.style.display = 'block';
-           specificLengthsField.querySelector('textarea').required = true;
-       } else {
-           specificLengthsField.style.display = 'none';
-           specificLengthsField.querySelector('textarea').required = false;
-           specificLengthsField.querySelector('textarea').value = '';
-       }
-   }
+        if (packagingSelect.value === 'dokładne odcinki') {
+            specificLengthsField.style.display = 'block';
+            specificLengthsField.querySelector('textarea').required = true;
+        } else {
+            specificLengthsField.style.display = 'none';
+            specificLengthsField.querySelector('textarea').required = false;
+            specificLengthsField.querySelector('textarea').value = '';
+        }
+    }
 
-   // Dodaj nasłuchiwanie na przyciski napięcia
-   function initVoltageButtons(cableForm) {
-       const voltageButtons = cableForm.querySelectorAll('input[type="radio"]');
-       const commentsField = cableForm.querySelector('.comments-field textarea');
+    // Dodaj nasłuchiwanie na przyciski napięcia
+    function initVoltageButtons(cableForm) {
+        const voltageButtons = cableForm.querySelectorAll('input[type="radio"]');
+        const commentsField = cableForm.querySelector('.comments-field textarea');
 
-       voltageButtons.forEach(button => {
-           button.addEventListener('change', function() {
-               if (this.value === 'other') {
-                   commentsField.required = true;
-                   commentsField.classList.add('required-field');
-               } else {
-                   commentsField.required = false;
-                   commentsField.classList.remove('required-field');
-               }
-           });
-       });
-   }
+        voltageButtons.forEach(button => {
+            button.addEventListener('change', function () {
+                if (this.value === 'other') {
+                    commentsField.required = true;
+                    commentsField.classList.add('required-field');
+                } else {
+                    commentsField.required = false;
+                    commentsField.classList.remove('required-field');
+                }
+            });
+        });
+    }
 
-   // Obsługa dodawania nowych kabli
-   const addCableBtn = document.getElementById('add-cable');
-   const cableForms = document.getElementById('cable-forms');
+    // Obsługa dodawania nowych kabli
+    const addCableBtn = document.getElementById('add-cable');
+    const cableForms = document.getElementById('cable-forms');
 
-   addCableBtn.addEventListener('click', function() {
-       const lastCableForm = cableForms.querySelector('.cable-form:last-child');
-       const newCableForm = lastCableForm.cloneNode(true);
-       const cableIndex = cableForms.children.length;
+    addCableBtn.addEventListener('click', function () {
+        const lastCableForm = cableForms.querySelector('.cable-form:last-child');
+        const newCableForm = lastCableForm.cloneNode(true);
+        const cableIndex = cableForms.children.length;
 
-       // Aktualizacja numeracji i nazw pól
-       newCableForm.querySelector('.card-title').textContent = `Kabel #${cableIndex + 1}`;
+        // Aktualizacja numeracji i nazw pól
+        newCableForm.querySelector('.card-title').textContent = `Kabel #${cableIndex + 1}`;
 
-       // Czyszczenie wartości i aktualizacja nazw pól
-       newCableForm.querySelectorAll('input, select, textarea').forEach(input => {
-           const oldName = input.name;
-           input.name = oldName.replace(/\d+/, cableIndex);
-           input.value = '';
-           if (input.classList.contains('form-select')) {
-               input.selectedIndex = 0;
-           }
-       });
+        // Czyszczenie wartości i aktualizacja nazw pól
+        newCableForm.querySelectorAll('input, select, textarea').forEach(input => {
+            const oldName = input.name;
+            input.name = oldName.replace(/\d+/, cableIndex);
+            input.value = '';
+            if (input.classList.contains('form-select')) {
+                input.selectedIndex = 0;
+            }
+        });
 
-       // Resetowanie pól zależnych
-       newCableForm.querySelector('.voltage-buttons').style.display = 'none';
-       newCableForm.querySelector('.specific-lengths-field').style.display = 'none';
+        // Resetowanie pól zależnych
+        newCableForm.querySelector('.voltage-buttons').style.display = 'none';
+        newCableForm.querySelector('.specific-lengths-field').style.display = 'none';
 
-       // Dodanie przycisku usuwania
-       const removeBtn = newCableForm.querySelector('.remove-cable');
-       if (!removeBtn) {
-           const btn = document.createElement('button');
-           btn.type = 'button';
-           btn.className = 'btn btn-danger remove-cable';
-           btn.textContent = 'Usuń kabel';
-           newCableForm.querySelector('.card-body').appendChild(btn);
-       }
+        // Dodanie przycisku usuwania
+        const removeBtn = newCableForm.querySelector('.remove-cable');
+        if (!removeBtn) {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'btn btn-danger remove-cable';
+            btn.textContent = 'Usuń kabel';
+            newCableForm.querySelector('.card-body').appendChild(btn);
+        }
 
-       cableForms.appendChild(newCableForm);
-       attachEventListeners(newCableForm);
-   });
+        cableForms.appendChild(newCableForm);
+        attachEventListeners(newCableForm);
+    });
 
-   // Obsługa usuwania kabli
-   cableForms.addEventListener('click', function(e) {
-       if (e.target.classList.contains('remove-cable')) {
-           e.target.closest('.cable-form').remove();
-           updateCableNumbers();
-       }
-   });
+    // Obsługa usuwania kabli
+    cableForms.addEventListener('click', function (e) {
+        if (e.target.classList.contains('remove-cable')) {
+            e.target.closest('.cable-form').remove();
+            updateCableNumbers();
+        }
+    });
 
-   function updateCableNumbers() {
-       cableForms.querySelectorAll('.cable-form').forEach((form, index) => {
-           form.querySelector('.card-title').textContent = `Kabel #${index + 1}`;
+    function updateCableNumbers() {
+        cableForms.querySelectorAll('.cable-form').forEach((form, index) => {
+            form.querySelector('.card-title').textContent = `Kabel #${index + 1}`;
 
-           // Aktualizacja nazw pól
-           form.querySelectorAll('input, select, textarea').forEach(input => {
-               const baseName = input.name.replace(/\d+/, '');
-               input.name = baseName.replace('cables-', `cables-${index}`);
-           });
-       });
-   }
+            // Aktualizacja nazw pól
+            form.querySelectorAll('input, select, textarea').forEach(input => {
+                const baseName = input.name.replace(/\d+/, '');
+                input.name = baseName.replace('cables-', `cables-${index}`);
+            });
+        });
+    }
 
-   function attachEventListeners(form) {
-       const cableTypeInput = form.querySelector('.cable-type-input');
-       const packagingSelect = form.querySelector('select[name*="packaging"]');
+    function attachEventListeners(form) {
+        const cableTypeInput = form.querySelector('.cable-type-input');
+        const packagingSelect = form.querySelector('select[name*="packaging"]');
 
-if (cableTypeInput) {
-           cableTypeInput.addEventListener('input', () => handleCableTypeChange(cableTypeInput));
-       }
+        if (cableTypeInput) {
+            cableTypeInput.addEventListener('input', () => handleCableTypeChange(cableTypeInput));
+        }
 
-       if (packagingSelect) {
-           packagingSelect.addEventListener('change', () => handlePackagingChange(packagingSelect));
-       }
+        if (packagingSelect) {
+            packagingSelect.addEventListener('change', () => handlePackagingChange(packagingSelect));
+        }
 
-       initVoltageButtons(form);
-   }
+        initVoltageButtons(form);
+    }
 
-   // Inicjalizacja event listenerów dla istniejących formularzy
-   document.querySelectorAll('.cable-form').forEach(form => {
-       attachEventListeners(form);
-   });
+    // Inicjalizacja event listenerów dla istniejących formularzy
+    document.querySelectorAll('.cable-form').forEach(form => {
+        attachEventListeners(form);
+    });
 
-   // Inicjalne sprawdzenie stanu
-   if (marketSelect) {
-       updateSalespersonsList(marketSelect.value);
-   }
-   document.querySelectorAll('.cable-type-input').forEach(input => {
-       handleCableTypeChange(input);
-   });
-   document.querySelectorAll('select[name*="packaging"]').forEach(select => {
-       handlePackagingChange(select);
-   });
+    // Inicjalne sprawdzenie stanu
+    if (marketSelect) {
+        updateSalespersonsList(marketSelect.value);
+    }
+    document.querySelectorAll('.cable-type-input').forEach(input => {
+        handleCableTypeChange(input);
+    });
+    document.querySelectorAll('select[name*="packaging"]').forEach(select => {
+        handlePackagingChange(select);
+    });
 
-   // Sprawdzanie istniejących wartości napięcia i ustawianie odpowiednich przycisków
-   document.querySelectorAll('.cable-form').forEach((form, index) => {
-       const cableTypeInput = form.querySelector('.cable-type-input');
-       const value = cableTypeInput.value.toUpperCase();
-       if (value.includes('XRU') || value.includes('XNRU')) {
-           const voltageComment = form.querySelector('.comments-field textarea').value;
-           const voltageButtons = form.querySelectorAll('input[type="radio"]');
-           if (voltageComment && voltageComment.includes('kV')) {
-               voltageButtons[2].checked = true; // zaznacz opcję "inne"
-           } else {
-               // Sprawdź czy to 12/20 czy 18/30
-               if (value.includes('12/20')) {
-                   voltageButtons[0].checked = true;
-               } else if (value.includes('18/30')) {
-                   voltageButtons[1].checked = true;
-               }
-           }
-       }
-   });
+    // Sprawdzanie istniejących wartości napięcia i ustawianie odpowiednich przycisków
+    document.querySelectorAll('.cable-form').forEach((form, index) => {
+        const cableTypeInput = form.querySelector('.cable-type-input');
+        const value = cableTypeInput.value.toUpperCase();
+        if (value.includes('XRU') || value.includes('XNRU')) {
+            const voltageComment = form.querySelector('.comments-field textarea').value;
+            const voltageButtons = form.querySelectorAll('input[type="radio"]');
+            if (voltageComment && voltageComment.includes('kV')) {
+                voltageButtons[2].checked = true; // zaznacz opcję "inne"
+            } else {
+                // Sprawdź czy to 12/20 czy 18/30
+                if (value.includes('12/20')) {
+                    voltageButtons[0].checked = true;
+                } else if (value.includes('18/30')) {
+                    voltageButtons[1].checked = true;
+                }
+            }
+        }
+    });
 });
 </script>
 {% endblock %}

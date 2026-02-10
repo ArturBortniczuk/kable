@@ -7,16 +7,16 @@
         <h2>Aktualne zapytania</h2>
         <div class="d-flex">
             <div class="btn-group me-3">
-                <a href="{{ url_for('index', status='all') }}"
-                   class="btn {% if request.args.get('status') == 'all' %}btn-primary{% else %}btn-outline-primary{% endif %}">
+                <a href="{{ url_for('main.index', status='all') }}"
+                    class="btn {% if request.args.get('status') == 'all' %}btn-primary{% else %}btn-outline-primary{% endif %}">
                     Wszystkie
                 </a>
-                <a href="{{ url_for('index', status='answered') }}"
-                   class="btn {% if request.args.get('status') == 'answered' %}btn-primary{% else %}btn-outline-primary{% endif %}">
+                <a href="{{ url_for('main.index', status='answered') }}"
+                    class="btn {% if request.args.get('status') == 'answered' %}btn-primary{% else %}btn-outline-primary{% endif %}">
                     Odpowiedziane
                 </a>
-                <a href="{{ url_for('index', status='pending') }}"
-                   class="btn {% if request.args.get('status', 'pending') == 'pending' %}btn-primary{% else %}btn-outline-primary{% endif %}">
+                <a href="{{ url_for('main.index', status='pending') }}"
+                    class="btn {% if request.args.get('status', 'pending') == 'pending' %}btn-primary{% else %}btn-outline-primary{% endif %}">
                     Oczekujące
                 </a>
             </div>
@@ -25,434 +25,435 @@
 </div>
 
 {% if not query_data %}
-    <div class="alert alert-info">Brak aktywnych zapytań.</div>
+<div class="alert alert-info">Brak aktywnych zapytań.</div>
 {% else %}
-    <!-- Widok desktopowy -->
-    <div class="table-responsive d-none d-md-block">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Handlowiec</th>
-                    <th>Rynek</th>
-                    <th>Klient</th>
-                    <th>Kable</th>
-                    <th>Data zapytania</th>
-                    <th>Czas odpowiedzi</th>
-                    <th>Status</th>
-                    <th>Sprzedane?</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for data in query_data %}
-                <!-- Główny wiersz -->
-                <tr class="clickable-row {% if data.unread_comments_count > 0 %}has-unread-comments{% endif %}"
-                    data-row-id="{{ data.query.id }}"
-                    data-status="{% if data.query.is_won == True %}success{% elif data.query.is_won == False %}danger{% endif %}">
-                    <td>
-                        <div>{{ data.query.name }}</div>
-                        {% if data.query.comments|length > 0 %}
-                            <div class="comments-indicator mt-1">
-                                <i class="bi bi-envelope{% if data.unread_comments_count > 0 %}-fill text-dark{% else %} text-secondary{% endif %}"></i>
-                                <small class="ms-1">{{ data.query.comments|length }} komentarz{{ '' if data.query.comments|length == 1 else 'y' if data.query.comments|length > 4 else 'e' }}</small>
-                                {% if data.unread_comments_count > 0 %}
-                                    <span class="badge bg-dark ms-1">{{ data.unread_comments_count }} now{{ 'y' if data.unread_comments_count > 4 else 'e' if data.unread_comments_count > 1 else 'y' }}</span>
-                                {% endif %}
-                            </div>
+<!-- Widok desktopowy -->
+<div class="table-responsive d-none d-md-block">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Handlowiec</th>
+                <th>Rynek</th>
+                <th>Klient</th>
+                <th>Kable</th>
+                <th>Data zapytania</th>
+                <th>Czas odpowiedzi</th>
+                <th>Status</th>
+                <th>Sprzedane?</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in query_data %}
+            <!-- Główny wiersz -->
+            <tr class="clickable-row {% if data.unread_comments_count > 0 %}has-unread-comments{% endif %}"
+                data-row-id="{{ data.query.id }}"
+                data-status="{% if data.query.is_won == True %}success{% elif data.query.is_won == False %}danger{% endif %}">
+                <td>
+                    <div>{{ data.query.name }}</div>
+                    {% if data.query.comments|length > 0 %}
+                    <div class="comments-indicator mt-1">
+                        <i
+                            class="bi bi-envelope{% if data.unread_comments_count > 0 %}-fill text-dark{% else %} text-secondary{% endif %}"></i>
+                        <small class="ms-1">{{ data.query.comments|length }} komentarz{{ '' if
+                            data.query.comments|length == 1 else 'y' if data.query.comments|length > 4 else 'e'
+                            }}</small>
+                        {% if data.unread_comments_count > 0 %}
+                        <span class="badge bg-dark ms-1">{{ data.unread_comments_count }} now{{ 'y' if
+                            data.unread_comments_count > 4 else 'e' if data.unread_comments_count > 1 else 'y' }}</span>
                         {% endif %}
-                    </td>
-                    <td>{{ data.query.market }}</td>
-                    <td>
-                        {{ data.query.client }}
-                        {% if data.query.investment %}
-                            <div class="small text-muted">
-                                <i class="bi bi-building"></i> {{ data.query.investment }}
-                            </div>
-                        {% endif %}
-                    </td>
-                    <td class="cable-info-cell">
-                        {% for cable in data.cables %}
-                        <div class="cable-details mb-3 p-3 bg-light rounded">
-                            <!-- Nazwa kabla i długość -->
-                            <div class="h5 mb-2">
-                                {{ cable.type }} - {{ cable.length }}m
-                                {% if cable.voltage %}({{ cable.voltage }}kV){% endif %}
-                            </div>
-
-                            <!-- Podstawowe informacje o kablu -->
-                            <div class="mb-2 small">
-                                <div><strong class="text-secondary">Konfekcja:</strong> {{ cable.packaging }}</div>
-                                {% if cable.specific_lengths %}
-                                <div><strong class="text-secondary">Dokładne odcinki:</strong> {{ cable.specific_lengths }}</div>
-                                {% endif %}
-                                {% if cable.comments %}
-                                <div><strong class="text-secondary">Uwagi do kabla:</strong> {{ cable.comments }}</div>
-                                {% endif %}
-                                {% if data.query.preferred_date %}
-                                <div><strong class="text-secondary">Preferowana data dostawy:</strong> {{ data.query.preferred_date.strftime('%d.%m.%Y') }}</div>
-                                {% endif %}
-                            </div>
-
-                            <!-- Informacje o odpowiedzi -->
-                            {% if cable.response %}
-                            <div class="mt-2 pt-2 border-top small">
-                                {% if cable.response.price_per_meter_client %}
-                                <div class="text-muted">
-                                    <strong>Sugerowana cena sprzedaży netto:</strong> {{ "%.2f"|format(cable.response.price_per_meter_client) }} PLN/km
-                                    {% if cable.response.manufacturer %} - {{ cable.response.manufacturer }}{% endif %}
-                                </div>
-                                {% endif %}
-                                {% if cable.response.price_per_meter_purchase %}
-                                <div class="text-muted">
-                                    <strong>Orientacyjna cena zakupu netto:</strong> {{ "%.2f"|format(cable.response.price_per_meter_purchase) }} PLN/km
-                                </div>
-                                {% endif %}
-                                <div class="text-muted">
-                                    <strong>Termin dostawy:</strong>
-                                    {{ cable.response.delivery_date_start.strftime('%d.%m.%Y') }} -
-                                    {{ cable.response.delivery_date_end.strftime('%d.%m.%Y') }}
-                                </div>
-                                <div class="text-muted">
-                                    <strong>Ważność oferty:</strong> {{ cable.response.validity_date.strftime('%d.%m.%Y') }}
-                                </div>
-                                {% if cable.response.comments %}
-                                <div class="text-muted mt-2">
-                                    <strong>Uwagi do odpowiedzi:</strong> {{ cable.response.comments }}
-                                </div>
-                                {% endif %}
-                            </div>
-                            {% endif %}
+                    </div>
+                    {% endif %}
+                </td>
+                <td>{{ data.query.market }}</td>
+                <td>
+                    {{ data.query.client }}
+                    {% if data.query.investment %}
+                    <div class="small text-muted">
+                        <i class="bi bi-building"></i> {{ data.query.investment }}
+                    </div>
+                    {% endif %}
+                </td>
+                <td class="cable-info-cell">
+                    {% for cable in data.cables %}
+                    <div class="cable-details mb-3 p-3 bg-light rounded">
+                        <!-- Nazwa kabla i długość -->
+                        <div class="h5 mb-2">
+                            {{ cable.type }} - {{ cable.length }}m
+                            {% if cable.voltage %}({{ cable.voltage }}kV){% endif %}
                         </div>
-                        {% endfor %}
 
-                        <!-- Uwagi ogólne do całego zapytania -->
-                        {% if data.query.query_comments %}
-                            <div class="mt-2 small">
-                                <strong class="text-secondary">Uwagi ogólne:</strong> {{ data.query.query_comments }}
+                        <!-- Podstawowe informacje o kablu -->
+                        <div class="mb-2 small">
+                            <div><strong class="text-secondary">Konfekcja:</strong> {{ cable.packaging }}</div>
+                            {% if cable.specific_lengths %}
+                            <div><strong class="text-secondary">Dokładne odcinki:</strong> {{ cable.specific_lengths }}
                             </div>
-                        {% endif %}
-                    </td>
-                    <td>{{ format_datetime(data.query.date_submitted) }}</td>
-                    <td>
-                        <span class="elapsed-time {% if data.is_overdue %}text-danger{% endif %}">
-                            {{ data.time_diff.hours }}h {{ data.time_diff.minutes }}m {{ data.time_diff.seconds }}s
-                        </span>
-                    </td>
-                    <td>
-                        {% if data.is_responded %}
-                            <span class="badge bg-success">&nbsp;✓&nbsp;</span>
-                        {% else %}
-                            <span class="badge bg-warning">⌛️</span>
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if data.query.name == session.get('username') %}
-                            <div class="form-check form-check-inline">
-                                <div class="btn-group" role="group">
-                                    <input type="radio"
-                                           class="btn-check"
-                                           name="sale_status_{{ data.query.id }}"
-                                           id="yes_{{ data.query.id }}"
-                                           {% if data.query.is_won == True %}checked{% endif %}
-                                           onchange="updateSaleStatus({{ data.query.id }}, true)">
-                                    <label class="btn btn-outline-success" for="yes_{{ data.query.id }}">Tak</label>
-
-                                    <input type="radio"
-                                           class="btn-check"
-                                           name="sale_status_{{ data.query.id }}"
-                                           id="no_{{ data.query.id }}"
-                                           {% if data.query.is_won == False %}checked{% endif %}
-                                           onchange="updateSaleStatus({{ data.query.id }}, false)">
-                                    <label class="btn btn-outline-danger" for="no_{{ data.query.id }}">Nie</label>
-                                </div>
-                            </div>
-                        {% else %}
-                            {% if data.query.is_won == True %}
-                                <span class="badge bg-success">&nbsp;Sukces&nbsp;</span>
-                            {% elif data.query.is_won == False %}
-                                <span class="badge bg-danger">Porażka</span>
-                            {% else %}
-                                <span class="badge bg-secondary">Brak informacji</span>
                             {% endif %}
-                        {% endif %}
-                    </td>
-                </tr>
-                <!-- Wiersz z akcjami i komentarzami -->
-                <tr id="actions-{{ data.query.id }}" class="action-row" style="display: none;">
-                    <td colspan="8">
-                        <!-- Najpierw dodajemy sekcję z przyciskami akcji -->
-                        <div class="d-flex gap-2 mb-3">
-                            {% if not data.is_responded and data.query.name == session.get('username') %}
-                                <a href="{{ url_for('edit_query', query_id=data.query.id) }}" class="btn btn-warning btn-sm">
-                                    <i class="bi bi-pencil"></i>
-                                    <span>Edytuj</span>
-                                </a>
+                            {% if cable.comments %}
+                            <div><strong class="text-secondary">Uwagi do kabla:</strong> {{ cable.comments }}</div>
                             {% endif %}
-                            {% if session.get('is_admin') and not data.is_responded %}
-                                <a href="{{ url_for('respond', query_id=data.query.id) }}" class="btn btn-primary btn-sm">
-                                    <i class="bi bi-reply"></i>
-                                    <span>Odpowiedź</span>
-                                </a>
-                            {% endif %}
-                            {% if session.get('can_delete') %}
-                                <form method="POST"
-                                      action="{{ url_for('delete_query', query_id=data.query.id) }}"
-                                      style="display: inline-block;"
-                                      onsubmit="return confirm('Czy na pewno chcesz usunąć to zapytanie?');">
-                                    {{ delete_form.csrf_token }}
-                                    <button type="submit" class="btn btn-danger btn-sm">
-                                        <i class="bi bi-trash"></i>
-                                        <span>Usuń</span>
-                                    </button>
-                                </form>
+                            {% if data.query.preferred_date %}
+                            <div><strong class="text-secondary">Preferowana data dostawy:</strong> {{
+                                data.query.preferred_date.strftime('%d.%m.%Y') }}</div>
                             {% endif %}
                         </div>
 
-                        <!-- Sekcja komentarzy -->
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h6>Komentarze ({{ data.query.comments|length }})</h6>
-                            <div class="btn-group btn-group-sm">
-                                <button class="btn btn-outline-secondary" onclick="toggleCommentsRead('{{ data.query.id }}', true)">
-                                    Oznacz jako przeczytane
-                                </button>
-                                <button class="btn btn-outline-secondary" onclick="toggleCommentsRead('{{ data.query.id }}', false)">
-                                    Oznacz jako nieprzeczytane
-                                </button>
+                        <!-- Informacje o odpowiedzi -->
+                        {% if cable.response %}
+                        <div class="mt-2 pt-2 border-top small">
+                            {% if cable.response.price_per_meter_client %}
+                            <div class="text-muted">
+                                <strong>Sugerowana cena sprzedaży netto:</strong> {{
+                                "%.2f"|format(cable.response.price_per_meter_client) }} PLN/km
+                                {% if cable.response.manufacturer %} - {{ cable.response.manufacturer }}{% endif %}
                             </div>
-                        </div>
-
-                        <!-- Lista komentarzy -->
-                        <div class="comments-list mb-3">
-                            {% for comment in data.query.comments %}
-                                <div class="comment-item p-2 {% if not comment.is_read %}unread-comment{% endif %}">
-                                    <div class="d-flex justify-content-between">
-                                        <strong>{{ comment.author }}</strong>
-                                        <small class="text-muted">{{ comment.date_posted.strftime('%Y-%m-%d %H:%M:%S') }}</small>
-                                    </div>
-                                    <div>{{ comment.content }}</div>
-                                </div>
-                            {% else %}
-                                <div class="text-muted">Brak komentarzy.</div>
-                            {% endfor %}
-                        </div>
-
-                        <!-- Formularz dodawania komentarza -->
-                        <form method="POST" action="{{ url_for('add_comment') }}">
-                            {{ comment_form.csrf_token }}
-                            <input type="hidden" name="query_id" value="{{ data.query.id }}">
-                            <div class="form-group">
-                                <textarea name="content" class="form-control" rows="2"
-                                          placeholder="Dodaj komentarz..." required></textarea>
+                            {% endif %}
+                            {% if cable.response.price_per_meter_purchase %}
+                            <div class="text-muted">
+                                <strong>Orientacyjna cena zakupu netto:</strong> {{
+                                "%.2f"|format(cable.response.price_per_meter_purchase) }} PLN/km
                             </div>
-                            <button type="submit" class="btn btn-primary btn-sm mt-2">
-                                Dodaj komentarz
+                            {% endif %}
+                            <div class="text-muted">
+                                <strong>Termin dostawy:</strong>
+                                {{ cable.response.delivery_date_start.strftime('%d.%m.%Y') }} -
+                                {{ cable.response.delivery_date_end.strftime('%d.%m.%Y') }}
+                            </div>
+                            <div class="text-muted">
+                                <strong>Ważność oferty:</strong> {{ cable.response.validity_date.strftime('%d.%m.%Y') }}
+                            </div>
+                            {% if cable.response.comments %}
+                            <div class="text-muted mt-2">
+                                <strong>Uwagi do odpowiedzi:</strong> {{ cable.response.comments }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+
+                    <!-- Uwagi ogólne do całego zapytania -->
+                    {% if data.query.query_comments %}
+                    <div class="mt-2 small">
+                        <strong class="text-secondary">Uwagi ogólne:</strong> {{ data.query.query_comments }}
+                    </div>
+                    {% endif %}
+                </td>
+                <td>{{ format_datetime(data.query.date_submitted) }}</td>
+                <td>
+                    <span class="elapsed-time {% if data.is_overdue %}text-danger{% endif %}">
+                        {{ data.time_diff.hours }}h {{ data.time_diff.minutes }}m {{ data.time_diff.seconds }}s
+                    </span>
+                </td>
+                <td>
+                    {% if data.is_responded %}
+                    <span class="badge bg-success">&nbsp;✓&nbsp;</span>
+                    {% else %}
+                    <span class="badge bg-warning">⌛️</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if data.query.name == session.get('username') %}
+                    <div class="form-check form-check-inline">
+                        <div class="btn-group" role="group">
+                            <input type="radio" class="btn-check" name="sale_status_{{ data.query.id }}"
+                                id="yes_{{ data.query.id }}" {% if data.query.is_won==True %}checked{% endif %}
+                                onchange="updateSaleStatus({{ data.query.id }}, true)">
+                            <label class="btn btn-outline-success" for="yes_{{ data.query.id }}">Tak</label>
+
+                            <input type="radio" class="btn-check" name="sale_status_{{ data.query.id }}"
+                                id="no_{{ data.query.id }}" {% if data.query.is_won==False %}checked{% endif %}
+                                onchange="updateSaleStatus({{ data.query.id }}, false)">
+                            <label class="btn btn-outline-danger" for="no_{{ data.query.id }}">Nie</label>
+                        </div>
+                    </div>
+                    {% else %}
+                    {% if data.query.is_won == True %}
+                    <span class="badge bg-success">&nbsp;Sukces&nbsp;</span>
+                    {% elif data.query.is_won == False %}
+                    <span class="badge bg-danger">Porażka</span>
+                    {% else %}
+                    <span class="badge bg-secondary">Brak informacji</span>
+                    {% endif %}
+                    {% endif %}
+                </td>
+            </tr>
+            <!-- Wiersz z akcjami i komentarzami -->
+            <tr id="actions-{{ data.query.id }}" class="action-row" style="display: none;">
+                <td colspan="8">
+                    <!-- Najpierw dodajemy sekcję z przyciskami akcji -->
+                    <div class="d-flex gap-2 mb-3">
+                        {% if not data.is_responded and data.query.name == session.get('username') %}
+                        <a href="{{ url_for('queries.edit_query', query_id=data.query.id) }}"
+                            class="btn btn-warning btn-sm">
+                            <i class="bi bi-pencil"></i>
+                            <span>Edytuj</span>
+                        </a>
+                        {% endif %}
+                        {% if session.get('is_admin') and not data.is_responded %}
+                        <a href="{{ url_for('responses.respond', query_id=data.query.id) }}"
+                            class="btn btn-primary btn-sm">
+                            <i class="bi bi-reply"></i>
+                            <span>Odpowiedź</span>
+                        </a>
+                        {% endif %}
+                        {% if session.get('can_delete') %}
+                        <form method="POST" action="{{ url_for('queries.delete_query', query_id=data.query.id) }}"
+                            style="display: inline-block;"
+                            onsubmit="return confirm('Czy na pewno chcesz usunąć to zapytanie?');">
+                            {{ delete_form.csrf_token }}
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <i class="bi bi-trash"></i>
+                                <span>Usuń</span>
                             </button>
                         </form>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Widok mobilny -->
-    <div class="d-md-none">
-        {% for data in query_data %}
-        <div class="query-card mb-3 {% if data.query.is_won == True %}bg-success-light{% elif data.query.is_won == False %}bg-danger-light{% endif %}">
-            <div class="query-header d-flex justify-content-between align-items-center mb-2">
-                <h5 class="mb-0">{{ data.query.client }}</h5>
-                <span class="badge bg-primary">{{ data.query.market }}</span>
-            </div>
-
-            <!-- Podstawowe informacje -->
-            <div class="query-details mb-3">
-                <div class="row g-2">
-                    <div class="col-6">
-                        <small class="text-muted">Handlowiec</small><br>
-                        {{ data.query.name }}
+                        {% endif %}
                     </div>
-                    <div class="col-6">
-                        <small class="text-muted">Data</small><br>
-                        {{ format_datetime(data.query.date_submitted) }}
-                    </div>
-                    {% if data.query.investment %}
-                    <div class="col-12">
-                        <small class="text-muted">Inwestycja</small><br>
-                        {{ data.query.investment }}
-                    </div>
-                    {% endif %}
-                </div>
-            </div>
 
-            <!-- Status i czas odpowiedzi -->
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <div>
-                    {% if data.is_responded %}
-                        <span class="badge bg-success">Odpowiedziano</span>
-                    {% else %}
-                        <span class="badge bg-warning">Oczekuje</span>
-                    {% endif %}
-                </div>
-                <span class="elapsed-time {% if data.is_overdue %}text-danger{% endif %}">
-                    {{ data.time_diff.hours }}h {{ data.time_diff.minutes }}m
-                </span>
-            </div>
-
-            <!-- Kable -->
-            {% for cable in data.cables %}
-            <div class="cable-details mb-3 p-3 bg-light rounded">
-                <h6 class="mb-2">{{ cable.type }}{% if cable.voltage %} ({{ cable.voltage }}kV){% endif %}</h6>
-
-                <!-- Podstawowe informacje o kablu -->
-                <div class="small">
-                    <div><strong>Długość:</strong> {{ cable.length }}m</div>
-                    <div><strong>Konfekcja:</strong> {{ cable.packaging }}</div>
-                    {% if cable.specific_lengths %}
-                    <div><strong>Dokładne odcinki:</strong> {{ cable.specific_lengths }}</div>
-                    {% endif %}
-                    {% if cable.comments %}
-                    <div><strong>Uwagi do kabla:</strong> {{ cable.comments }}</div>
-                    {% endif %}
-                </div>
-
-                <!-- Odpowiedź na zapytanie -->
-                {% if cable.response %}
-                <div class="mt-2 pt-2 border-top">
-                    <div class="small">
-                        {% if cable.response.price_per_meter_client %}
-                        <div class="text-primary">
-                            <strong>Cena dla klienta:</strong> {{ "%.2f"|format(cable.response.price_per_meter_client) }} PLN/m
+                    <!-- Sekcja komentarzy -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6>Komentarze ({{ data.query.comments|length }})</h6>
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-outline-secondary"
+                                onclick="toggleCommentsRead('{{ data.query.id }}', true)">
+                                Oznacz jako przeczytane
+                            </button>
+                            <button class="btn btn-outline-secondary"
+                                onclick="toggleCommentsRead('{{ data.query.id }}', false)">
+                                Oznacz jako nieprzeczytane
+                            </button>
                         </div>
-                        {% endif %}
-                        {% if cable.response.price_per_meter_purchase %}
-                        <div class="text-danger">
-                            <strong>Cena zakupu:</strong> {{ "%.2f"|format(cable.response.price_per_meter_purchase) }} PLN/m
-                        </div>
-                        {% endif %}
-                        {% if cable.response.manufacturer %}
-                        <div><strong>Producent:</strong> {{ cable.response.manufacturer }}</div>
-                        {% endif %}
-                        <div><strong>Termin dostawy:</strong> {{ cable.response.delivery_date_start.strftime('%d.%m.%Y') }} - {{ cable.response.delivery_date_end.strftime('%d.%m.%Y') }}</div>
-                        <div><strong>Ważność oferty:</strong> {{ cable.response.validity_date.strftime('%d.%m.%Y') }}</div>
-                        {% if cable.response.comments %}
-                        <div><strong>Uwagi do odpowiedzi:</strong> {{ cable.response.comments }}</div>
-                        {% endif %}
                     </div>
-                </div>
-                {% endif %}
-            </div>
-            {% endfor %}
 
-            <!-- Uwagi ogólne -->
-            {% if data.query.query_comments %}
-            <div class="small mb-3">
-                <strong>Uwagi ogólne:</strong> {{ data.query.query_comments }}
-            </div>
-            {% endif %}
-
-            <!-- Status sprzedaży -->
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                {% if data.query.name == session.get('username') %}
-                <div class="btn-group" role="group">
-                    <input type="radio"
-                           class="btn-check"
-                           name="sale_status_mobile_{{ data.query.id }}"
-                           id="mobile_yes_{{ data.query.id }}"
-                           {% if data.query.is_won == True %}checked{% endif %}
-                           onchange="updateSaleStatus({{ data.query.id }}, true)">
-                    <label class="btn btn-outline-success btn-sm" for="mobile_yes_{{ data.query.id }}">Sprzedane</label>
-
-                    <input type="radio"
-                           class="btn-check"
-                           name="sale_status_mobile_{{ data.query.id }}"
-                           id="mobile_no_{{ data.query.id }}"
-                           {% if data.query.is_won == False %}checked{% endif %}
-                           onchange="updateSaleStatus({{ data.query.id }}, false)">
-                    <label class="btn btn-outline-danger btn-sm" for="mobile_no_{{ data.query.id }}">Niesprzedane</label>
-                </div>
-                {% else %}
-                <div>
-                    {% if data.query.is_won == True %}
-                        <span class="badge bg-success">Sprzedane</span>
-                    {% elif data.query.is_won == False %}
-                        <span class="badge bg-danger">Niesprzedane</span>
-                    {% else %}
-                        <span class="badge bg-secondary">Brak informacji</span>
-                    {% endif %}
-                </div>
-                {% endif %}
-            </div>
-
-            <!-- Akcje -->
-            <div class="action-buttons d-flex gap-2">
-                {% if not data.is_responded and data.query.name == session.get('username') %}
-                    <a href="{{ url_for('edit_query', query_id=data.query.id) }}" class="btn btn-warning btn-sm">
-                        <i class="bi bi-pencil"></i> Edytuj
-                    </a>
-                {% endif %}
-                {% if session.get('is_admin') and not data.is_responded %}
-                    <a href="{{ url_for('respond', query_id=data.query.id) }}" class="btn btn-primary btn-sm">
-                        <i class="bi bi-reply"></i> Odpowiedz
-                    </a>
-                {% endif %}
-                {% if session.get('can_delete') %}
-                    <form method="POST"
-                          action="{{ url_for('delete_query', query_id=data.query.id) }}"
-                          style="display: inline-block;"
-                          onsubmit="return confirm('Czy na pewno chcesz usunąć to zapytanie?');">
-                        {{ delete_form.csrf_token }}
-                        <button type="submit" class="btn btn-danger btn-sm">
-                            <i class="bi bi-trash"></i> Usuń
-                        </button>
-                    </form>
-                {% endif %}
-            </div>
-
-            <!-- Sekcja komentarzy -->
-            <div class="mt-3">
-                <h6>Komentarze ({{ data.query.comments|length }})</h6>
-
-                <!-- Lista komentarzy -->
-                <div class="comments-list mb-3">
-                    {% for comment in data.query.comments %}
+                    <!-- Lista komentarzy -->
+                    <div class="comments-list mb-3">
+                        {% for comment in data.query.comments %}
                         <div class="comment-item p-2 {% if not comment.is_read %}unread-comment{% endif %}">
                             <div class="d-flex justify-content-between">
                                 <strong>{{ comment.author }}</strong>
-                                <small class="text-muted">{{ comment.date_posted.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+                                <small class="text-muted">{{ comment.date_posted.strftime('%Y-%m-%d %H:%M:%S')
+                                    }}</small>
                             </div>
                             <div>{{ comment.content }}</div>
                         </div>
-                    {% else %}
+                        {% else %}
                         <div class="text-muted">Brak komentarzy.</div>
-                    {% endfor %}
-                </div>
-
-                <!-- Formularz dodawania komentarza -->
-                <form method="POST" action="{{ url_for('add_comment') }}">
-                    {{ comment_form.csrf_token }}
-                    <input type="hidden" name="query_id" value="{{ data.query.id }}">
-                    <div class="form-group">
-                        <textarea name="content" class="form-control" rows="2"
-                                  placeholder="Dodaj komentarz..." required></textarea>
+                        {% endfor %}
                     </div>
-                    <button type="submit" class="btn btn-primary btn-sm mt-2">
-                        Dodaj komentarz
-                    </button>
-                </form>
+
+                    <!-- Formularz dodawania komentarza -->
+                    <form method="POST" action="{{ url_for('comments.add_comment') }}">
+                        {{ comment_form.csrf_token }}
+                        <input type="hidden" name="query_id" value="{{ data.query.id }}">
+                        <div class="form-group">
+                            <textarea name="content" class="form-control" rows="2" placeholder="Dodaj komentarz..."
+                                required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-sm mt-2">
+                            Dodaj komentarz
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Widok mobilny -->
+<div class="d-md-none">
+    {% for data in query_data %}
+    <div
+        class="query-card mb-3 {% if data.query.is_won == True %}bg-success-light{% elif data.query.is_won == False %}bg-danger-light{% endif %}">
+        <div class="query-header d-flex justify-content-between align-items-center mb-2">
+            <h5 class="mb-0">{{ data.query.client }}</h5>
+            <span class="badge bg-primary">{{ data.query.market }}</span>
+        </div>
+
+        <!-- Podstawowe informacje -->
+        <div class="query-details mb-3">
+            <div class="row g-2">
+                <div class="col-6">
+                    <small class="text-muted">Handlowiec</small><br>
+                    {{ data.query.name }}
+                </div>
+                <div class="col-6">
+                    <small class="text-muted">Data</small><br>
+                    {{ format_datetime(data.query.date_submitted) }}
+                </div>
+                {% if data.query.investment %}
+                <div class="col-12">
+                    <small class="text-muted">Inwestycja</small><br>
+                    {{ data.query.investment }}
+                </div>
+                {% endif %}
             </div>
         </div>
+
+        <!-- Status i czas odpowiedzi -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                {% if data.is_responded %}
+                <span class="badge bg-success">Odpowiedziano</span>
+                {% else %}
+                <span class="badge bg-warning">Oczekuje</span>
+                {% endif %}
+            </div>
+            <span class="elapsed-time {% if data.is_overdue %}text-danger{% endif %}">
+                {{ data.time_diff.hours }}h {{ data.time_diff.minutes }}m
+            </span>
+        </div>
+
+        <!-- Kable -->
+        {% for cable in data.cables %}
+        <div class="cable-details mb-3 p-3 bg-light rounded">
+            <h6 class="mb-2">{{ cable.type }}{% if cable.voltage %} ({{ cable.voltage }}kV){% endif %}</h6>
+
+            <!-- Podstawowe informacje o kablu -->
+            <div class="small">
+                <div><strong>Długość:</strong> {{ cable.length }}m</div>
+                <div><strong>Konfekcja:</strong> {{ cable.packaging }}</div>
+                {% if cable.specific_lengths %}
+                <div><strong>Dokładne odcinki:</strong> {{ cable.specific_lengths }}</div>
+                {% endif %}
+                {% if cable.comments %}
+                <div><strong>Uwagi do kabla:</strong> {{ cable.comments }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Odpowiedź na zapytanie -->
+            {% if cable.response %}
+            <div class="mt-2 pt-2 border-top">
+                <div class="small">
+                    {% if cable.response.price_per_meter_client %}
+                    <div class="text-primary">
+                        <strong>Cena dla klienta:</strong> {{ "%.2f"|format(cable.response.price_per_meter_client) }}
+                        PLN/m
+                    </div>
+                    {% endif %}
+                    {% if cable.response.price_per_meter_purchase %}
+                    <div class="text-danger">
+                        <strong>Cena zakupu:</strong> {{ "%.2f"|format(cable.response.price_per_meter_purchase) }} PLN/m
+                    </div>
+                    {% endif %}
+                    {% if cable.response.manufacturer %}
+                    <div><strong>Producent:</strong> {{ cable.response.manufacturer }}</div>
+                    {% endif %}
+                    <div><strong>Termin dostawy:</strong> {{ cable.response.delivery_date_start.strftime('%d.%m.%Y') }}
+                        - {{ cable.response.delivery_date_end.strftime('%d.%m.%Y') }}</div>
+                    <div><strong>Ważność oferty:</strong> {{ cable.response.validity_date.strftime('%d.%m.%Y') }}</div>
+                    {% if cable.response.comments %}
+                    <div><strong>Uwagi do odpowiedzi:</strong> {{ cable.response.comments }}</div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
         {% endfor %}
+
+        <!-- Uwagi ogólne -->
+        {% if data.query.query_comments %}
+        <div class="small mb-3">
+            <strong>Uwagi ogólne:</strong> {{ data.query.query_comments }}
+        </div>
+        {% endif %}
+
+        <!-- Status sprzedaży -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            {% if data.query.name == session.get('username') %}
+            <div class="btn-group" role="group">
+                <input type="radio" class="btn-check" name="sale_status_mobile_{{ data.query.id }}"
+                    id="mobile_yes_{{ data.query.id }}" {% if data.query.is_won==True %}checked{% endif %}
+                    onchange="updateSaleStatus({{ data.query.id }}, true)">
+                <label class="btn btn-outline-success btn-sm" for="mobile_yes_{{ data.query.id }}">Sprzedane</label>
+
+                <input type="radio" class="btn-check" name="sale_status_mobile_{{ data.query.id }}"
+                    id="mobile_no_{{ data.query.id }}" {% if data.query.is_won==False %}checked{% endif %}
+                    onchange="updateSaleStatus({{ data.query.id }}, false)">
+                <label class="btn btn-outline-danger btn-sm" for="mobile_no_{{ data.query.id }}">Niesprzedane</label>
+            </div>
+            {% else %}
+            <div>
+                {% if data.query.is_won == True %}
+                <span class="badge bg-success">Sprzedane</span>
+                {% elif data.query.is_won == False %}
+                <span class="badge bg-danger">Niesprzedane</span>
+                {% else %}
+                <span class="badge bg-secondary">Brak informacji</span>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Akcje -->
+        <div class="action-buttons d-flex gap-2">
+            {% if not data.is_responded and data.query.name == session.get('username') %}
+            <a href="{{ url_for('queries.edit_query', query_id=data.query.id) }}" class="btn btn-warning btn-sm">
+                <i class="bi bi-pencil"></i> Edytuj
+            </a>
+            {% endif %}
+            {% if session.get('is_admin') and not data.is_responded %}
+            <a href="{{ url_for('responses.respond', query_id=data.query.id) }}" class="btn btn-primary btn-sm">
+                <i class="bi bi-reply"></i> Odpowiedz
+            </a>
+            {% endif %}
+            {% if session.get('can_delete') %}
+            <form method="POST" action="{{ url_for('queries.delete_query', query_id=data.query.id) }}"
+                style="display: inline-block;" onsubmit="return confirm('Czy na pewno chcesz usunąć to zapytanie?');">
+                {{ delete_form.csrf_token }}
+                <button type="submit" class="btn btn-danger btn-sm">
+                    <i class="bi bi-trash"></i> Usuń
+                </button>
+            </form>
+            {% endif %}
+        </div>
+
+        <!-- Sekcja komentarzy -->
+        <div class="mt-3">
+            <h6>Komentarze ({{ data.query.comments|length }})</h6>
+
+            <!-- Lista komentarzy -->
+            <div class="comments-list mb-3">
+                {% for comment in data.query.comments %}
+                <div class="comment-item p-2 {% if not comment.is_read %}unread-comment{% endif %}">
+                    <div class="d-flex justify-content-between">
+                        <strong>{{ comment.author }}</strong>
+                        <small class="text-muted">{{ comment.date_posted.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+                    </div>
+                    <div>{{ comment.content }}</div>
+                </div>
+                {% else %}
+                <div class="text-muted">Brak komentarzy.</div>
+                {% endfor %}
+            </div>
+
+            <!-- Formularz dodawania komentarza -->
+            <form method="POST" action="{{ url_for('comments.add_comment') }}">
+                {{ comment_form.csrf_token }}
+                <input type="hidden" name="query_id" value="{{ data.query.id }}">
+                <div class="form-group">
+                    <textarea name="content" class="form-control" rows="2" placeholder="Dodaj komentarz..."
+                        required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm mt-2">
+                    Dodaj komentarz
+                </button>
+            </form>
+        </div>
     </div>
+    {% endfor %}
+</div>
 {% endif %}
 
 {% block scripts %}
 <script src="{{ url_for('static', filename='js/form_handlers.js') }}"></script>
 <script src="{{ url_for('static', filename='js/table_handlers.js') }}"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Inicjalizacja obu handlerów
-    initializeAllHandlers();     // dla formularzy
-    initializeTableHandlers();   // dla tabeli
-});
+    document.addEventListener('DOMContentLoaded', function () {
+        // Inicjalizacja obu handlerów
+        initializeAllHandlers();     // dla formularzy
+        initializeTableHandlers();   // dla tabeli
+    });
 </script>
 {% endblock %}
 {% endblock %}

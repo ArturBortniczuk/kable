@@ -21,21 +21,21 @@
 <!-- Navigation -->
     <nav class="navbar navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('index') }}">
+            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('main.index') }}">
                 <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="navbar-logo me-2">
                 <span class="d-none d-md-inline">System Zapytań Kablowych</span>
             </a>
             <div class="nav-icons">
-                <a href="{{ url_for('instruction') }}" class="nav-icon-link" title="Instrukcja">
+                <a href="{{ url_for('main.instruction') }}" class="nav-icon-link" title="Instrukcja">
                     <i class="bi bi-question-circle"></i>
                 </a>
-                <a href="{{ url_for('index') }}" class="nav-icon-link" title="Aktualne zapytania">
+                <a href="{{ url_for('main.index') }}" class="nav-icon-link" title="Aktualne zapytania">
                     <i class="bi bi-list-ul"></i>
                 </a>
-                <a href="{{ url_for('new_query') }}" class="nav-icon-link" title="Nowe zapytanie">
+                <a href="{{ url_for('queries.new_query') }}" class="nav-icon-link" title="Nowe zapytanie">
                     <i class="bi bi-plus-circle"></i>
                 </a>
-                <a href="{{ url_for('archive') }}" class="nav-icon-link" title="Archiwum">
+                <a href="{{ url_for('main.archive') }}" class="nav-icon-link" title="Archiwum">
                     <i class="bi bi-archive"></i>
                 </a>
 
@@ -47,7 +47,7 @@
                         <span class="badge bg-warning text-dark position-absolute top-0 start-100 translate-middle-x">A</span>
                         {% endif %}
                     </span>
-                    <a href="{{ url_for('logout') }}" class="nav-icon-link ms-2" title="Wyloguj">
+                    <a href="{{ url_for('auth.logout') }}" class="nav-icon-link ms-2" title="Wyloguj">
                         <i class="bi bi-box-arrow-right"></i>
                     </a>
                 </div>
