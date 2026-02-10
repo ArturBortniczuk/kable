@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-center mb-0">Dodaj Nowe Zapytanie</h2>
+                </div>
+                <div class="card-body">
+                    <form method="POST" class="needs-validation" novalidate>
+                        {{ form.csrf_token }}
+                        {{ form.hidden_tag() }}
+
+                        <!-- Podstawowe informacje -->
+                        {% if not session.get('is_admin') %}
+                            <input type="hidden" name="market" value="{{ session.get('market') }}">
+                            <input type="hidden" name="name" value="{{ session.get('username') }}">
+                            <div class="mb-3">
+                                <label class="form-label">Rynek</label>
+                                <input type="text" class="form-control" value="{{ session.get('market') }}" disabled>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Handlowiec</label>
+                                <input type="text" class="form-control" value="{{ session.get('username') }}" disabled>
+                            </div>
+                        {% else %}
+                            <div class="mb-3">
+                                {{ form.market.label(class="form-label") }}
+                                {{ form.market(class="form-select") }}
+                                {% if form.market.errors %}
+                                    {% for error in form.market.errors %}
+                                        <div class="invalid-feedback d-block">{{ error }}</div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            <div class="mb-3">
+                                {{ form.name.label(class="form-label") }}
+                                {{ form.name(class="form-select") }}
+                                {% if form.name.errors %}
+                                    {% for error in form.name.errors %}
+                                        <div class="invalid-feedback d-block">{{ error }}</div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        {% endif %}
+
+                        <div class="mb-3">
+                            {{ form.client.label(class="form-label") }}
+                            {{ form.client(class="form-control") }}
+                            {% if form.client.errors %}
+                                {% for error in form.client.errors %}
+                                    <div class="invalid-feedback d-block">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.investment.label(class="form-label") }}
+                            {{ form.investment(class="form-control", placeholder="Opcjonalnie") }}
+                            {% if form.investment.errors %}
+                                {% for error in form.investment.errors %}
+                                    <div class="invalid-feedback d-block">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+
+                        <!-- Dynamiczne sekcje kabli -->
+                        <div id="cables-container">
+                            <h4>Kable</h4>
+                            <div id="cable-forms">
+                                {% for cable_form in form.cables %}
+                                <div class="cable-form card mb-3">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Kabel #{{ loop.index }}</h5>
+
+                                        <div class="mb-3">
+                                            {{ cable_form.cable_type.label(class="form-label") }}
+                                            {{ cable_form.cable_type(class="form-control cable-type-input") }}
+                                            {% if cable_form.cable_type.errors %}
+                                                {% for error in cable_form.cable_type.errors %}
+                                                    <div class="invalid-feedback d-block">{{ error }}</div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+
+                                        <!-- Przycisków napięcia -->
+                                        <div class="mb-3 voltage-buttons" style="display: none;">
+                                            <label class="form-label">Napięcie:</label>
+                                            <div class="btn-group d-flex" role="group">
+                                                <input type="radio" class="btn-check" name="voltage-{{ loop.index0 }}" id="v1-{{ loop.index0 }}" value="12/20">
+                                                <label class="btn btn-outline-primary" for="v1-{{ loop.index0 }}">12/20kV</label>
+
+                                                <input type="radio" class="btn-check" name="voltage-{{ loop.index0 }}" id="v2-{{ loop.index0 }}" value="18/30">
+                                                <label class="btn btn-outline-primary" for="v2-{{ loop.index0 }}">18/30kV</label>
+
+                                                <input type="radio" class="btn-check" name="voltage-{{ loop.index0 }}" id="v3-{{ loop.index0 }}" value="other">
+                                                <label class="btn btn-outline-primary" for="v3-{{ loop.index0 }}">inne (wpisz w uwagach)</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            {{ cable_form.length.label(class="form-label") }}
+                                            {{ cable_form.length(class="form-control") }}
+                                            {% if cable_form.length.errors %}
+                                                {% for error in cable_form.length.errors %}
+                                                    <div class="invalid-feedback d-block">{{ error }}</div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="mb-3">
+                                            {{ cable_form.packaging.label(class="form-label") }}
+                                            {{ cable_form.packaging(class="form-select") }}
+                                            {% if cable_form.packaging.errors %}
+                                                {% for error in cable_form.packaging.errors %}
+                                                    <div class="invalid-feedback d-block">{{ error }}</div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="mb-3 specific-lengths-field" style="display: none;">
+                                            <label class="form-label">Dokładne odcinki</label>
+                                            <div class="alert alert-info small mb-2">
+                                                Podaj długości i ilości odcinków. Suma wszystkich odcinków zostanie automatycznie wpisana jako całkowita długość kabla.
+                                            </div>
+
+                                            <!-- Kontener na sekcje z odcinkami -->
+                                            <div class="length-sections-container mb-3">
+                                                <!-- Sekcje będą dodawane dynamicznie przez JavaScript -->
+                                            </div>
+
+                                            <!-- Przycisk dodawania nowych sekcji -->
+                                            <button type="button" class="btn btn-secondary btn-sm mb-2" onclick="addLengthSection(this.previousElementSibling)">
+                                                Dodaj kolejny rodzaj odcinka
+                                            </button>
+
+                                            <!-- Ukryte pole tekstowe na wynik -->
+                                            {{ cable_form.specific_lengths(class="form-control", style="display: none;") }}
+                                        </div>
+
+                                        <div class="mb-3 comments-field">
+                                            {{ cable_form.comments.label(class="form-label") }}
+                                            {{ cable_form.comments(class="form-control", rows="2", placeholder="Uwagi do kabla (opcjonalnie)") }}
+                                        </div>
+
+                                        {% if not loop.first %}
+                                            <button type="button" class="btn btn-danger remove-cable">Usuń kabel</button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <button type="button" class="btn btn-secondary mb-3" id="add-cable">Dodaj kolejny kabel</button>
+                        </div>
+
+                        <!-- Pozostałe pola -->
+                        <div class="mb-3">
+                            {{ form.preferred_date.label(class="form-label") }}
+                            {{ form.preferred_date(class="form-control", type="date") }}
+                            {% if form.preferred_date.errors %}
+                                {% for error in form.preferred_date.errors %}
+                                    <div class="invalid-feedback d-block">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.comments.label(class="form-label") }}
+                            {{ form.comments(class="form-control", rows="3") }}
+                            {% if form.comments.errors %}
+                                {% for error in form.comments.errors %}
+                                    <div class="invalid-feedback d-block">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Dodaj Zapytanie</button>
+                            <a href="{{ url_for('index') }}" class="btn btn-secondary">Anuluj</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+    const salespersons_by_market = {{ salespersons_by_market|safe }};
+</script>
+{% endblock %}

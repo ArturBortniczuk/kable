@@ -1,0 +1,267 @@
+/* =================
+   Reset & Base Styles
+   ================= */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #f8f9fa;
+}
+
+.container {
+    max-width: 98% !important;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px 0;
+}
+
+/* =================
+   Table & Row Styles
+   ================= */
+.table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.table th {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #0066cc;
+    padding: 15px;
+    font-weight: 600;
+}
+
+.table td {
+    word-wrap: break-word;
+    vertical-align: top;
+    padding: 12px;
+}
+
+.table-responsive {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.05);
+    padding: 20px;
+    margin-top: 1rem;
+}
+
+/* Fixed column widths */
+.table th:nth-child(1), .table td:nth-child(1) { width: 9%; }
+.table th:nth-child(2), .table td:nth-child(2) { width: 8%; }
+.table th:nth-child(3), .table td:nth-child(3) { width: 9%; }
+.table th:nth-child(4), .table td:nth-child(4) { width: 34%; }
+.table th:nth-child(5), .table td:nth-child(5) { width: 8%; }
+.table th:nth-child(6), .table td:nth-child(6) { width: 8%; }
+.table th:nth-child(7), .table td:nth-child(7) { width: 7%; }
+.table th:nth-child(8), .table td:nth-child(8) { width: 10%; }
+.table th:nth-child(9), .table td:nth-child(9) { width: 7%; }
+
+/* Row states */
+.clickable-row {
+    cursor: pointer;
+}
+
+.clickable-row:hover {
+    background-color: rgba(0,0,0,0.02);
+}
+
+.action-row {
+    display: none;  /* Domyślnie ukryty */
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-top: 1px solid #dee2e6;
+}
+
+.action-row.show {
+    display: table-row !important;
+}
+
+.table > tbody > tr[data-status="success"] > * {
+    background-color: rgba(25, 135, 84, 0.15) !important;
+}
+
+.table > tbody > tr[data-status="danger"] > * {
+    background-color: rgba(220, 53, 69, 0.15) !important;
+}
+
+/* =================
+   Navigation
+   ================= */
+.navbar {
+    padding: 0.5rem 0;
+    background: linear-gradient(135deg, #0066cc, #0052a3) !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,.1);
+}
+
+.navbar-brand {
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
+.navbar-logo {
+    height: 35px;
+    margin-right: 10px;
+}
+
+.nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.nav-icon-link {
+    color: rgba(255,255,255,0.9);
+    font-size: 1.4rem;
+    padding: 0.5rem;
+    border-radius: 6px;
+    position: relative;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.nav-icon-link:hover {
+    color: white;
+    background-color: rgba(255,255,255,0.1);
+    transform: translateY(-2px);
+}
+
+/* =================
+   Comments Styles
+   ================= */
+.comments-list {
+    max-height: 300px;
+    overflow-y: auto;
+    background: white;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.comment-item {
+    border-bottom: 1px solid #dee2e6;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+}
+
+.comment-item:last-child {
+    border-bottom: none;
+}
+
+.unread-comment {
+    background-color: rgba(220, 53, 69, 0.1);
+    border-left: 3px solid #dc3545;
+}
+
+.comments-indicator {
+    font-size: 0.85em;
+    color: #6c757d;
+    display: flex;
+    align-items: center;
+    padding-top: 2px;
+}
+
+.comments-indicator i {
+    font-size: 1.1em;
+}
+
+.comments-indicator .badge {
+    font-size: 0.85em;
+    padding: 0.25em 0.5em;
+}
+
+/* =================
+   Forms & Cards
+   ================= */
+.card {
+    box-shadow: 0 4px 12px rgba(0,0,0,.05);
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,.1);
+    transition: all 0.3s ease;
+}
+
+.card-header {
+    background: linear-gradient(to right, #0066cc, #0074e4);
+    color: white;
+    border-radius: 10px 10px 0 0 !important;
+    border: none;
+    padding: 1.2rem;
+}
+
+.form-control {
+    border-radius: 6px;
+    padding: 0.6rem 1rem;
+    border: 2px solid #dee2e6;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #0066cc;
+    box-shadow: 0 0 0 3px rgba(0,102,204,0.1);
+}
+
+/* =================
+   Status & Badges
+   ================= */
+.badge {
+    padding: 0.5em 0.8em;
+    font-size: 0.875em;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.elapsed-time {
+    font-family: monospace;
+    white-space: nowrap;
+}
+
+.elapsed-time.text-danger {
+    color: #dc3545 !important;
+}
+
+.elapsed-time.text-success {
+    color: #28a745 !important;
+}
+
+/* =================
+   Mobile Styles
+   ================= */
+@media (max-width: 768px) {
+    .query-card {
+        background: white;
+        padding: 15px;
+        margin: -12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .navbar-logo {
+        height: 30px;
+    }
+
+    .container {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .action-buttons {
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid #dee2e6;
+    }
+
+    .action-buttons .btn {
+        flex: 1;
+        white-space: nowrap;
+    }
+}
+
+/* =================
+   Animations
+   ================= */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.table tr, .card, .alert {
+    animation: fadeIn 0.3s ease-out forwards;
+}

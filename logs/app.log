@@ -1,0 +1,104 @@
+2024-11-05 22:57:48,962 - INFO - NumExpr defaulting to 4 threads.
+2024-11-06 07:03:19,122 - INFO - NumExpr defaulting to 4 threads.
+2024-11-06 07:05:28,139 - INFO - NumExpr defaulting to 4 threads.
+2024-11-06 07:08:33,497 - ERROR - Import error: No module named 'flask_apscheduler'
+Traceback (most recent call last):
+  File "/var/www/kable_grupaeltron_pl_wsgi.py", line 33, in <module>
+    from app import app as _application
+  File "/home/ArturBortniczuk/myapp/./app.py", line 12, in <module>
+    from scheduler import scheduler, init_scheduler  # zmień import
+  File "/home/ArturBortniczuk/myapp/./scheduler.py", line 7, in <module>
+    from flask_apscheduler import APScheduler
+ModuleNotFoundError: No module named 'flask_apscheduler'
+2024-11-06 07:09:29,692 - ERROR - Import error: cannot import name '_app_ctx_stack' from 'flask' (/home/ArturBortniczuk/.local/lib/python3.10/site-packages/flask/__init__.py)
+Traceback (most recent call last):
+  File "/var/www/kable_grupaeltron_pl_wsgi.py", line 33, in <module>
+    from app import app as _application
+  File "/home/ArturBortniczuk/myapp/./app.py", line 2, in <module>
+    from flask_sqlalchemy import SQLAlchemy
+  File "/usr/local/lib/python3.10/site-packages/flask_sqlalchemy/__init__.py", line 14, in <module>
+    from flask import _app_ctx_stack, abort, current_app, request
+ImportError: cannot import name '_app_ctx_stack' from 'flask' (/home/ArturBortniczuk/.local/lib/python3.10/site-packages/flask/__init__.py)
+2024-11-06 07:09:29,701 - ERROR - Error running WSGI application
+2024-11-06 07:09:29,707 - ERROR - NameError: name 'e' is not defined
+2024-11-06 07:09:29,710 - ERROR -   File "/var/www/kable_grupaeltron_pl_wsgi.py", line 54, in application
+2024-11-06 07:09:29,713 - ERROR -     output = f"Failed to import application: {str(e)}".encode('utf-8')
+2024-11-06 07:09:32,987 - ERROR - Error running WSGI application
+2024-11-06 07:09:32,991 - ERROR - NameError: name 'e' is not defined
+2024-11-06 07:09:32,995 - ERROR -   File "/var/www/kable_grupaeltron_pl_wsgi.py", line 54, in application
+2024-11-06 07:09:32,999 - ERROR -     output = f"Failed to import application: {str(e)}".encode('utf-8')
+2024-11-06 07:09:33,781 - ERROR - Error running WSGI application
+2024-11-06 07:09:33,785 - ERROR - NameError: name 'e' is not defined
+2024-11-06 07:09:33,787 - ERROR -   File "/var/www/kable_grupaeltron_pl_wsgi.py", line 54, in application
+2024-11-06 07:09:33,790 - ERROR -     output = f"Failed to import application: {str(e)}".encode('utf-8')
+2024-11-06 07:09:42,001 - ERROR - Import error: cannot import name '_app_ctx_stack' from 'flask' (/home/ArturBortniczuk/.local/lib/python3.10/site-packages/flask/__init__.py)
+Traceback (most recent call last):
+  File "/var/www/kable_grupaeltron_pl_wsgi.py", line 33, in <module>
+    from app import app as _application
+  File "/home/ArturBortniczuk/myapp/./app.py", line 2, in <module>
+    from flask_sqlalchemy import SQLAlchemy
+  File "/usr/local/lib/python3.10/site-packages/flask_sqlalchemy/__init__.py", line 14, in <module>
+    from flask import _app_ctx_stack, abort, current_app, request
+ImportError: cannot import name '_app_ctx_stack' from 'flask' (/home/ArturBortniczuk/.local/lib/python3.10/site-packages/flask/__init__.py)
+2024-11-06 07:09:42,363 - ERROR - Error running WSGI application
+2024-11-06 07:09:42,368 - ERROR - NameError: name 'e' is not defined
+2024-11-06 07:09:42,371 - ERROR -   File "/var/www/kable_grupaeltron_pl_wsgi.py", line 54, in application
+2024-11-06 07:09:42,374 - ERROR -     output = f"Failed to import application: {str(e)}".encode('utf-8')
+2024-11-06 07:09:48,070 - ERROR - Error running WSGI application
+2024-11-06 07:09:48,074 - ERROR - NameError: name 'e' is not defined
+2024-11-06 07:09:48,076 - ERROR -   File "/var/www/kable_grupaeltron_pl_wsgi.py", line 54, in application
+2024-11-06 07:09:48,079 - ERROR -     output = f"Failed to import application: {str(e)}".encode('utf-8')
+2024-11-06 07:09:48,406 - ERROR - Error running WSGI application
+2024-11-06 07:09:48,411 - ERROR - NameError: name 'e' is not defined
+2024-11-06 07:09:48,414 - ERROR -   File "/var/www/kable_grupaeltron_pl_wsgi.py", line 54, in application
+2024-11-06 07:09:48,416 - ERROR -     output = f"Failed to import application: {str(e)}".encode('utf-8')
+2024-11-06 07:25:54,468 - ERROR - Error running WSGI application
+2024-11-06 07:25:54,470 - ERROR - NameError: name 'e' is not defined
+2024-11-06 07:25:54,475 - ERROR -   File "/var/www/kable_grupaeltron_pl_wsgi.py", line 54, in application
+2024-11-06 07:25:54,478 - ERROR -     output = f"Failed to import application: {str(e)}".encode('utf-8')
+2024-11-06 07:25:55,493 - ERROR - Error running WSGI application
+2024-11-06 07:25:55,497 - ERROR - NameError: name 'e' is not defined
+2024-11-06 07:25:55,500 - ERROR -   File "/var/www/kable_grupaeltron_pl_wsgi.py", line 54, in application
+2024-11-06 07:25:55,504 - ERROR -     output = f"Failed to import application: {str(e)}".encode('utf-8')
+2024-11-06 07:33:51,715 - ERROR - Error running WSGI application
+2024-11-06 07:33:51,718 - ERROR - NameError: name 'e' is not defined
+2024-11-06 07:33:51,722 - ERROR -   File "/var/www/kable_grupaeltron_pl_wsgi.py", line 54, in application
+2024-11-06 07:33:51,725 - ERROR -     output = f"Failed to import application: {str(e)}".encode('utf-8')
+2024-11-06 07:33:52,482 - ERROR - Error running WSGI application
+2024-11-06 07:33:52,486 - ERROR - NameError: name 'e' is not defined
+2024-11-06 07:33:52,490 - ERROR -   File "/var/www/kable_grupaeltron_pl_wsgi.py", line 54, in application
+2024-11-06 07:33:52,494 - ERROR -     output = f"Failed to import application: {str(e)}".encode('utf-8')
+2024-11-06 07:34:04,787 - ERROR - Import error: cannot import name '_app_ctx_stack' from 'flask' (/home/ArturBortniczuk/.local/lib/python3.10/site-packages/flask/__init__.py)
+Traceback (most recent call last):
+  File "/var/www/kable_grupaeltron_pl_wsgi.py", line 33, in <module>
+    from app import app as _application
+  File "/home/ArturBortniczuk/myapp/./app.py", line 2, in <module>
+    from flask_sqlalchemy import SQLAlchemy
+  File "/usr/local/lib/python3.10/site-packages/flask_sqlalchemy/__init__.py", line 14, in <module>
+    from flask import _app_ctx_stack, abort, current_app, request
+ImportError: cannot import name '_app_ctx_stack' from 'flask' (/home/ArturBortniczuk/.local/lib/python3.10/site-packages/flask/__init__.py)
+2024-11-06 07:34:05,640 - ERROR - Error running WSGI application
+2024-11-06 07:34:05,645 - ERROR - NameError: name 'e' is not defined
+2024-11-06 07:34:05,648 - ERROR -   File "/var/www/kable_grupaeltron_pl_wsgi.py", line 54, in application
+2024-11-06 07:34:05,651 - ERROR -     output = f"Failed to import application: {str(e)}".encode('utf-8')
+2024-11-06 07:34:11,809 - ERROR - Error running WSGI application
+2024-11-06 07:34:11,816 - ERROR - NameError: name 'e' is not defined
+2024-11-06 07:34:11,829 - ERROR -   File "/var/www/kable_grupaeltron_pl_wsgi.py", line 54, in application
+2024-11-06 07:34:11,833 - ERROR -     output = f"Failed to import application: {str(e)}".encode('utf-8')
+2024-11-06 07:34:12,481 - ERROR - Error running WSGI application
+2024-11-06 07:34:12,486 - ERROR - NameError: name 'e' is not defined
+2024-11-06 07:34:12,489 - ERROR -   File "/var/www/kable_grupaeltron_pl_wsgi.py", line 54, in application
+2024-11-06 07:34:12,493 - ERROR -     output = f"Failed to import application: {str(e)}".encode('utf-8')
+2024-11-06 11:22:56,125 - INFO - Successfully initialized app data
+2024-11-06 11:22:56,134 - INFO - Successfully initialized app data
+2024-11-06 11:22:56,134 - INFO - Successfully initialized app data
+2024-11-06 11:22:56,282 - ERROR - OSError: write error
+2024-11-06 11:22:56,527 - ERROR - OSError: write error
+2024-11-06 11:22:56,606 - ERROR - OSError: write error
+2024-11-06 11:22:56,614 - ERROR - OSError: write error
+2024-11-06 11:22:56,653 - ERROR - OSError: write error
+2024-11-06 11:22:56,659 - ERROR - OSError: write error
+2024-11-06 11:22:56,689 - ERROR - OSError: write error
+2024-11-06 11:22:56,713 - ERROR - OSError: write error
+2024-11-06 11:22:56,723 - ERROR - OSError: write error
+2024-11-06 11:22:56,763 - ERROR - OSError: write error

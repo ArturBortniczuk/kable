@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="mb-0">Instrukcja obsługi systemu</h2>
+        </div>
+        <div class="card-body">
+            <!-- Podstawowe informacje -->
+            <section class="mb-4">
+                <h3>1. Logowanie do systemu</h3>
+                <div class="ps-3">
+                    <p><strong>Dla handlowców:</strong></p>
+                    <ul>
+                        <li>Login: twój adres email służbowy</li>
+                        <li>Hasło: pierwsze 3 litery imienia + pierwsze 3 litery nazwiska (małymi literami)</li>
+                    </ul>
+                    <p><strong>Przykład:</strong> Jan Kowalski → hasło: jankow</p>
+                </div>
+            </section>
+
+            <!-- Dodawanie nowego zapytania -->
+            <section class="mb-4">
+                <h3>2. Dodawanie nowego zapytania</h3>
+                <div class="ps-3">
+                    <ol>
+                        <li>Kliknij ikonę <i class="bi bi-plus-circle"></i> w górnym menu</li>
+                        <li>Wypełnij dane klienta i szczegóły inwestycji</li>
+                        <li>Dodaj informacje o kablach:</li>
+                        <ul>
+                            <li>Wprowadź typ kabla - dla kabli XRU/XNRU pojawi się wybór napięcia</li>
+                            <li>Określ długość w metrach</li>
+                            <li>Wybierz rodzaj konfekcji (pełne bębny lub dokładne odcinki)</li>
+                            <li>Dodaj dodatkowe uwagi jeśli są potrzebne</li>
+                        </ul>
+                        <li>Możesz dodać więcej kabli używając przycisku "Dodaj kolejny kabel"</li>
+                        <li>Określ preferowaną datę dostawy</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- Przeglądanie zapytań -->
+            <section class="mb-4">
+                <h3>3. Przeglądanie zapytań</h3>
+                <div class="ps-3">
+                    <p>W systemie dostępne są trzy główne widoki:</p>
+                    <ul>
+                        <li><strong>Aktualne zapytania</strong> <i class="bi bi-list-ul"></i> - zapytania z ostatnich 7 dni</li>
+                        <li><strong>Archiwum</strong> <i class="bi bi-archive"></i> - starsze zapytania z możliwością filtrowania</li>
+                    </ul>
+                    <p>Status zapytania jest oznaczony kolorami:</p>
+                    <ul>
+                        <li><span class="badge bg-warning">Oczekuje</span> - brak odpowiedzi</li>
+                        <li><span class="badge bg-success">Odpowiedziano</span> - odpowiedź została udzielona</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Komentarze -->
+            <section class="mb-4">
+                <h3>4. System komentarzy</h3>
+                <div class="ps-3">
+                    <ul>
+                        <li>Kliknij na wiersz z zapytaniem, aby rozwinąć sekcję komentarzy</li>
+                        <li>Możesz dodawać komentarze do każdego zapytania</li>
+                        <li>Nieprzeczytane komentarze są wyróżnione ciemniejszym tłem</li>
+                        <li>Ikona <i class="bi bi-envelope"></i> oznacza obecność komentarzy</li>
+                        <li>Ikona <i class="bi bi-envelope-fill"></i> oznacza nieprzeczytane komentarze</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Edycja zapytania -->
+            <section class="mb-4">
+                <h3>5. Edycja zapytania</h3>
+                <div class="ps-3">
+                    <p>Możesz edytować zapytanie tylko przed udzieleniem odpowiedzi:</p>
+                    <ol>
+                        <li>Kliknij na wiersz z zapytaniem, aby rozwinąć szczegóły</li>
+                        <li>Jeśli zapytanie nie ma jeszcze odpowiedzi, zobaczysz przycisk <span class="badge bg-warning text-dark"><i class="bi bi-pencil"></i> Edytuj</span></li>
+                        <li>W formularzu edycji możesz zmienić:</li>
+                        <ul>
+                            <li>Dane klienta i inwestycji</li>
+                            <li>Szczegóły kabli</li>
+                            <li>Dodać lub usunąć kable</li>
+                            <li>Zmienić preferowaną datę dostawy</li>
+                            <li>Dodać lub zmodyfikować uwagi</li>
+                        </ul>
+                        <li>Po zakończeniu edycji kliknij "Zapisz zmiany"</li>
+                    </ol>
+                    <p class="text-muted"><small>Uwaga: Nie można edytować zapytania po udzieleniu odpowiedzi.</small></p>
+                </div>
+            </section>
+
+            <!-- Status sprzedaży -->
+            <section>
+                <h3>6. Status sprzedaży</h3>
+                <div class="ps-3">
+                    <p>Po otrzymaniu odpowiedzi handlowiec może oznaczyć status sprzedaży:</p>
+                    <ul>
+                        <li><span class="badge bg-success">Sprzedane</span> - oferta została zaakceptowana</li>
+                        <li><span class="badge bg-danger">Niesprzedane</span> - klient nie przyjął oferty</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

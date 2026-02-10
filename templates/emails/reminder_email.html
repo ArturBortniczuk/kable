@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            background-color: #dc3545;
+            color: white;
+            padding: 20px;
+            margin: -20px -20px 20px -20px;
+            text-align: center;
+            border-radius: 4px 4px 0 0;
+        }
+        .header h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 500;
+        }
+        .content {
+            padding: 20px;
+        }
+        .alert-box {
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .details-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+            background-color: #fff;
+        }
+        .details-table th {
+            background-color: #f8f9fa;
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #e9ecef;
+            width: 30%;
+            font-weight: 600;
+        }
+        .details-table td {
+            padding: 12px;
+            border: 1px solid #e9ecef;
+        }
+        .cable-info {
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #dc3545;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #0066cc;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 20px;
+            font-weight: 500;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #dee2e6;
+            text-align: center;
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Przypomnienie o niezrealizowanym zapytaniu</h2>
+        </div>
+        
+        <div class="content">
+            <div class="alert-box">
+                <strong>Uwaga!</strong> To zapytanie oczekuje na odpowiedź już ponad 48 godzin.
+            </div>
+
+            <table class="details-table">
+                <tr>
+                    <th>Klient</th>
+                    <td>{{ query.client }}</td>
+                </tr>
+                <tr>
+                    <th>Handlowiec</th>
+                    <td>{{ query.name }}</td>
+                </tr>
+                <tr>
+                    <th>Data zapytania</th>
+                    <td>{{ query.date_submitted.strftime('%d.%m.%Y %H:%M') }}</td>
+                </tr>
+            </table>
+
+            <h3 style="color: #dc3545;">Szczegóły kabli:</h3>
+            {% for cable in query.cables %}
+            <div class="cable-info">
+                <strong>Kabel {{ loop.index }}:</strong><br>
+                {{ cable.cable_type }}
+                {% if cable.voltage %}({{ cable.voltage }}kV){% endif %}
+                - {{ cable.length }}m
+                {% if cable.specific_lengths %}
+                <br><em>Odcinki: {{ cable.specific_lengths }}</em>
+                {% endif %}
+            </div>
+            {% endfor %}
+
+            <center>
+                <a href="{{ app_url }}{{ url_for('respond', query_id=query.id) }}" class="button">
+                    Odpowiedz na zapytanie
+                </a>
+            </center>
+        </div>
+
+        <div class="footer">
+            <p>Wiadomość wygenerowana automatycznie przez System Zapytań Kablowych</p>
+            <p>© {{ query.date_submitted.year }} Grupa ELTRON. Wszelkie prawa zastrzeżone.</p>
+        </div>
+    </div>
+</body>
+</html>

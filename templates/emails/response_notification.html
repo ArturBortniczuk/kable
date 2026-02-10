@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #0066cc;
+            color: white;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+        .header h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .info-section {
+            margin-bottom: 20px;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .info-label {
+            font-weight: bold;
+            color: #0066cc;
+            margin-bottom: 5px;
+        }
+        .cable-section {
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .cable-header {
+            background-color: #e9ecef;
+            padding: 10px;
+            margin: -15px -15px 15px -15px;
+            border-radius: 5px 5px 0 0;
+            font-weight: bold;
+        }
+        .price-info {
+            background-color: #f8f9fa;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+        .highlight {
+            color: #0066cc;
+            font-weight: bold;
+        }
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #dee2e6;
+            font-size: 12px;
+            color: #6c757d;
+            text-align: center;
+        }
+        .comments {
+            font-style: italic;
+            color: #6c757d;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+    <div style="max-width: 800px; margin: 0 auto; padding: 20px;">
+        <div style="background-color: #0066cc; color: white; padding: 20px; margin-bottom: 30px; border-radius: 5px;">
+            <h2 style="margin: 0;">Odpowiedź na zapytanie</h2>
+        </div>
+
+        <div style="background-color: #f8f9fa; padding: 15px; margin-bottom: 20px; border-radius: 5px;">
+            <div style="margin-bottom: 10px;">
+                <strong>Klient:</strong> {{ query.client }}
+            </div>
+
+            <div style="margin-bottom: 10px;">
+                <strong>Handlowiec:</strong> {{ query.name }}
+            </div>
+
+            <div style="margin-bottom: 10px;">
+                <strong>Data zapytania:</strong> {{ query.date_submitted.strftime('%d.%m.%Y %H:%M') }}
+            </div>
+
+            {% if query.query_comments %}
+                <div style="margin-bottom: 10px;">
+                    <strong>Uwagi do zapytania:</strong>
+                    <div style="font-style: italic;">{{ query.query_comments }}</div>
+                </div>
+            {% endif %}
+        </div>
+
+        <h3 style="color: #0066cc; margin-top: 30px;">Szczegóły odpowiedzi:</h3>
+
+        {% for cable, response in responses %}
+            <div style="border: 1px solid #dee2e6; padding: 15px; margin-bottom: 20px; border-radius: 5px;">
+                <div style="background-color: #f8f9fa; padding: 10px; margin: -15px -15px 15px -15px; border-radius: 5px 5px 0 0;">
+                    <h4 style="margin: 0;">Kabel {{ loop.index }}</h4>
+                </div>
+
+                <div>
+                    <strong>Typ:</strong> {{ cable.cable_type }}
+                    {% if cable.voltage %}
+                        <span style="color: #0066cc;">({{ cable.voltage }}kV)</span>
+                    {% endif %}
+                    - <span style="color: #0066cc;">{{ cable.length }}m</span>
+                </div>
+
+                {% if cable.specific_lengths %}
+                    <div style="margin-top: 10px;">
+                        <strong>Odcinki:</strong> {{ cable.specific_lengths }}
+                    </div>
+                {% endif %}
+
+                <div style="background-color: #f8f9fa; padding: 10px; margin-top: 10px; border-radius: 5px;">
+                    {% if response.price_per_meter_client %}
+                        <div style="margin-bottom: 5px;">
+                            <strong>Cena dla klienta netto:</strong>
+                            <span style="color: #0066cc;">{{ "%.2f"|format(response.price_per_meter_client) }} PLN/m</span>
+                        </div>
+                    {% endif %}
+
+                    {% if response.price_per_meter_purchase %}
+                        <div style="margin-bottom: 5px;">
+                            <strong>Cena zakupu netto:</strong>
+                            <span style="color: #0066cc;">{{ "%.2f"|format(response.price_per_meter_purchase) }} PLN/m</span>
+                        </div>
+                    {% endif %}
+
+                    <div style="margin-bottom: 5px;">
+                        <strong>Termin dostawy:</strong>
+                        {{ response.delivery_date_start.strftime('%d.%m.%Y') }} - {{ response.delivery_date_end.strftime('%d.%m.%Y') }}
+                    </div>
+
+                    <div>
+                        <strong>Ważność oferty:</strong>
+                        {{ response.validity_date.strftime('%d.%m.%Y') }}
+                    </div>
+
+                    {% if response.comments %}
+                        <div style="margin-top: 10px; font-style: italic;">
+                            <strong>Uwagi:</strong> {{ response.comments }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+
+        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #dee2e6; font-size: 12px; color: #6c757d; text-align: center;">
+            <div>Wiadomość wygenerowana automatycznie przez System Zapytań Kablowych</div>
+            <div style="margin-top: 5px;">© {{ query.date_submitted.year }} Grupa ELTRON. Wszelkie prawa zastrzeżone.</div>
+        </div>
+    </div>
+</body>
+</html>
