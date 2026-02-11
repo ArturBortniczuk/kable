@@ -21,6 +21,8 @@
 }
 
 [data-theme="dark"] .card {
+    background-color: var(--card-bg);
+    /* Ensure background is applied */
     border-color: #555;
     /* Explicit darker border for cards */
 }
@@ -335,7 +337,8 @@ body {
    ================= */
 @media (max-width: 768px) {
     .query-card {
-        background: white;
+        background: var(--card-bg);
+        /* Use variable instead of white */
         padding: 15px;
         margin: -12px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
