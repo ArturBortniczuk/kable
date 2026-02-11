@@ -5,7 +5,7 @@
     --bg-color: #f8f9fa;
     --text-color: #212529;
     --card-bg: #ffffff;
-    --border-color: rgba(0,0,0,.125);
+    --border-color: rgba(0, 0, 0, .125);
     --input-bg: #ffffff;
     --input-text: #212529;
 }
@@ -33,13 +33,15 @@ body {
     border-color: var(--border-color);
 }
 
-.form-control, .form-select {
+.form-control,
+.form-select {
     background-color: var(--input-bg);
     color: var(--input-text);
     border-color: var(--border-color);
 }
 
-.form-control:focus, .form-select:focus {
+.form-control:focus,
+.form-select:focus {
     background-color: var(--input-bg);
     color: var(--input-text);
 }
@@ -52,7 +54,7 @@ body {
 
 [data-theme="dark"] .table-hover tbody tr:hover {
     color: var(--text-color);
-    background-color: rgba(255,255,255,.075);
+    background-color: rgba(255, 255, 255, .075);
 }
 
 .container {
@@ -88,21 +90,56 @@ body {
 .table-responsive {
     background: white;
     border-radius: 10px;
-    box-shadow: 0 2px 12px rgba(0,0,0,.05);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, .05);
     padding: 20px;
     margin-top: 1rem;
 }
 
 /* Fixed column widths */
-.table th:nth-child(1), .table td:nth-child(1) { width: 9%; }
-.table th:nth-child(2), .table td:nth-child(2) { width: 8%; }
-.table th:nth-child(3), .table td:nth-child(3) { width: 9%; }
-.table th:nth-child(4), .table td:nth-child(4) { width: 34%; }
-.table th:nth-child(5), .table td:nth-child(5) { width: 8%; }
-.table th:nth-child(6), .table td:nth-child(6) { width: 8%; }
-.table th:nth-child(7), .table td:nth-child(7) { width: 7%; }
-.table th:nth-child(8), .table td:nth-child(8) { width: 10%; }
-.table th:nth-child(9), .table td:nth-child(9) { width: 7%; }
+.table th:nth-child(1),
+.table td:nth-child(1) {
+    width: 9%;
+}
+
+.table th:nth-child(2),
+.table td:nth-child(2) {
+    width: 8%;
+}
+
+.table th:nth-child(3),
+.table td:nth-child(3) {
+    width: 9%;
+}
+
+.table th:nth-child(4),
+.table td:nth-child(4) {
+    width: 34%;
+}
+
+.table th:nth-child(5),
+.table td:nth-child(5) {
+    width: 8%;
+}
+
+.table th:nth-child(6),
+.table td:nth-child(6) {
+    width: 8%;
+}
+
+.table th:nth-child(7),
+.table td:nth-child(7) {
+    width: 7%;
+}
+
+.table th:nth-child(8),
+.table td:nth-child(8) {
+    width: 10%;
+}
+
+.table th:nth-child(9),
+.table td:nth-child(9) {
+    width: 7%;
+}
 
 /* Row states */
 .clickable-row {
@@ -110,11 +147,12 @@ body {
 }
 
 .clickable-row:hover {
-    background-color: rgba(0,0,0,0.02);
+    background-color: rgba(0, 0, 0, 0.02);
 }
 
 .action-row {
-    display: none;  /* Domyślnie ukryty */
+    display: none;
+    /* Domyślnie ukryty */
     background-color: #f8f9fa;
     padding: 1rem;
     border-top: 1px solid #dee2e6;
@@ -124,11 +162,11 @@ body {
     display: table-row !important;
 }
 
-.table > tbody > tr[data-status="success"] > * {
+.table>tbody>tr[data-status="success"]>* {
     background-color: rgba(25, 135, 84, 0.15) !important;
 }
 
-.table > tbody > tr[data-status="danger"] > * {
+.table>tbody>tr[data-status="danger"]>* {
     background-color: rgba(220, 53, 69, 0.15) !important;
 }
 
@@ -138,7 +176,7 @@ body {
 .navbar {
     padding: 0.5rem 0;
     background: linear-gradient(135deg, #0066cc, #0052a3) !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
 }
 
 .navbar-brand {
@@ -158,7 +196,7 @@ body {
 }
 
 .nav-icon-link {
-    color: rgba(255,255,255,0.9);
+    color: rgba(255, 255, 255, 0.9);
     font-size: 1.4rem;
     padding: 0.5rem;
     border-radius: 6px;
@@ -169,7 +207,7 @@ body {
 
 .nav-icon-link:hover {
     color: white;
-    background-color: rgba(255,255,255,0.1);
+    background-color: rgba(255, 255, 255, 0.1);
     transform: translateY(-2px);
 }
 
@@ -220,9 +258,9 @@ body {
    Forms & Cards
    ================= */
 .card {
-    box-shadow: 0 4px 12px rgba(0,0,0,.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .05);
     border-radius: 10px;
-    border: 1px solid rgba(0,0,0,.1);
+    border: 1px solid rgba(0, 0, 0, .1);
     transition: all 0.3s ease;
 }
 
@@ -243,7 +281,7 @@ body {
 
 .form-control:focus {
     border-color: #0066cc;
-    box-shadow: 0 0 0 3px rgba(0,102,204,0.1);
+    box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
 }
 
 /* =================
@@ -277,7 +315,7 @@ body {
         background: white;
         padding: 15px;
         margin: -12px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
     .navbar-logo {
@@ -305,10 +343,48 @@ body {
    Animations
    ================= */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.table tr, .card, .alert {
+.table tr,
+.card,
+.alert {
     animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* =================
+   Users Table Specific
+   ================= */
+.users-table th:nth-child(1),
+.users-table td:nth-child(1) {
+    width: 20%;
+}
+
+.users-table th:nth-child(2),
+.users-table td:nth-child(2) {
+    width: 25%;
+}
+
+/* Increased for email */
+.users-table th:nth-child(3),
+.users-table td:nth-child(3) {
+    width: 15%;
+}
+
+.users-table th:nth-child(4),
+.users-table td:nth-child(4) {
+    width: 15%;
+}
+
+.users-table th:nth-child(5),
+.users-table td:nth-child(5) {
+    width: 25%;
 }
