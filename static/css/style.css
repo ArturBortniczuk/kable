@@ -20,6 +20,30 @@
     --input-text: #f8f9fa;
 }
 
+[data-theme="dark"] .bg-light {
+    background-color: #2b3035 !important;
+    color: #f8f9fa !important;
+    /* Ensure text visible on dark bg */
+}
+
+/* Custom light background classes for query status */
+.bg-success-light {
+    background-color: rgba(25, 135, 84, 0.1);
+}
+
+.bg-danger-light {
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+[data-theme="dark"] .bg-success-light {
+    background-color: rgba(25, 135, 84, 0.2);
+    /* Slightly more opaque for dark mode */
+}
+
+[data-theme="dark"] .bg-danger-light {
+    background-color: rgba(220, 53, 69, 0.2);
+}
+
 [data-theme="dark"] .card {
     background-color: var(--card-bg);
     /* Ensure background is applied */
@@ -113,7 +137,7 @@ body {
 }
 
 .table-responsive {
-    background: white;
+    background: var(--card-bg);
     border-radius: 10px;
     box-shadow: 0 2px 12px rgba(0, 0, 0, .05);
     padding: 20px;
@@ -242,7 +266,7 @@ body {
 .comments-list {
     max-height: 300px;
     overflow-y: auto;
-    background: white;
+    background: var(--input-bg);
     border-radius: 4px;
     padding: 10px;
 }
