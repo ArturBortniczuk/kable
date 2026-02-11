@@ -16,13 +16,14 @@ def index():
         return redirect(url_for('auth.login'))
 
     try:
-        print("\n=== DIAGNOSTYKA BAZY DANYCH ===")
-
         # Oblicz datę sprzed tygodnia
         week_ago = datetime.now(ZoneInfo("Europe/Warsaw")) - timedelta(days=7)
 
-        # Podstawowe zapytanie - pobierz zapytania z ostatniego tygodnia
-        base_query = Query.query.filter(Query.date_submitted >= week_ago)
+        # Podstawowe zapytanie z eager loading
+        base_query = Query.query.options(
+            db.joinedload(Query.cables).joinedload(Cable.response),
+            db.joinedload(Query.comments)
+        ).filter(Query.date_submitted >= week_ago)
 
         # Pobierz status z parametrów URL
         status = request.args.get('status', 'pending')
@@ -32,90 +33,56 @@ def index():
             queries = [q for q in base_query.all() if q.is_all_responded()]
         elif status == 'pending':
             # Nieodpowiedziane z ostatniego tygodnia + starsze nieodpowiedziane
-            older_pending = Query.query.filter(Query.date_submitted < week_ago).all()
+            older_pending = Query.query.options(
+                db.joinedload(Query.cables).joinedload(Cable.response),
+                db.joinedload(Query.comments)
+            ).filter(Query.date_submitted < week_ago).all()
+            
             recent_pending = [q for q in base_query.all() if not q.is_all_responded()]
             queries = recent_pending + [q for q in older_pending if not q.is_all_responded()]
         else:
             # Wszystkie z ostatniego tygodnia + starsze nieodpowiedziane
-            older_pending = Query.query.filter(Query.date_submitted < week_ago).all()
+            older_pending = Query.query.options(
+                db.joinedload(Query.cables).joinedload(Cable.response),
+                db.joinedload(Query.comments)
+            ).filter(Query.date_submitted < week_ago).all()
             queries = base_query.all() + [q for q in older_pending if not q.is_all_responded()]
 
         # Sortuj po dacie, najnowsze pierwsze
         queries.sort(key=lambda x: x.date_submitted, reverse=True)
-        if not queries:
-            print("Brak zapytań w bazie danych")
-            return render_template('index.html', query_data=[], delete_form=DeleteForm())
-
+        
         query_data = []
-        current_time = datetime.now(ZoneInfo("Europe/Warsaw"))
 
         for query in queries:
             try:
-                print(f"Przetwarzanie zapytania ID: {query.id}")
-                query_time = query.date_submitted
-                if query_time.tzinfo is None:
-                    query_time = query_time.replace(tzinfo=ZoneInfo("Europe/Warsaw"))
-
-                if query.is_all_responded():
-                    response_time = query.cables[0].response.date_responded
-                    if response_time.tzinfo is None:
-                        response_time = response_time.replace(tzinfo=ZoneInfo("Europe/Warsaw"))
-                    time_diff = response_time - query_time
-                else:
-                    time_diff = current_time - query_time
-
-                hours = int(time_diff.total_seconds() // 3600)
-                minutes = int((time_diff.total_seconds() % 3600) // 60)
-                seconds = int(time_diff.total_seconds() % 60)
-
-                print(f"Przetwarzanie kabli dla zapytania {query.id}")
+                # Używamy metod z modelu zamiast liczyć ręcznie
+                time_diff_data = query.get_time_since_submission()
+                
                 cables_info = []
                 for cable in query.cables:
-                    try:
-                        print(f"- Przetwarzanie kabla ID: {cable.id}")
-                        cable_info = {
-                            'type': cable.cable_type,
-                            'length': cable.length,
-                            'voltage': cable.voltage,
-                            'packaging': cable.packaging,
-                            'specific_lengths': cable.specific_lengths,
-                            'comments': cable.comments
-                        }
-
-                        if cable.response:
-                            print(f"  - Znaleziono odpowiedź dla kabla")
-                            cable_info['response'] = cable.response
-                        else:
-                            print(f"  - Brak odpowiedzi dla kabla")
-                            cable_info['response'] = None
-
-                        cables_info.append(cable_info)
-                    except Exception as cable_error:
-                        print(f"Błąd podczas przetwarzania kabla: {str(cable_error)}")
-                        raise
-
-                unread_comments_count = db.session.query(Comment).filter(
-                    Comment.query_id == query.id,
-                    Comment.is_read == False
-                ).count()
+                    cable_info = {
+                        'type': cable.cable_type,
+                        'length': cable.length,
+                        'voltage': cable.voltage,
+                        'packaging': cable.packaging,
+                        'specific_lengths': cable.specific_lengths,
+                        'comments': cable.comments,
+                        'response': cable.response # Relacja jest już załadowana
+                    }
+                    cables_info.append(cable_info)
 
                 query_data.append({
                     'query': query,
                     'cables': cables_info,
-                    'time_diff': {
-                        'hours': hours,
-                        'minutes': minutes,
-                        'seconds': seconds
-                    },
-                    'is_overdue': bool(hours and hours >= 48),
+                    'time_diff': time_diff_data,
+                    'is_overdue': query.is_overdue(),
                     'is_responded': query.is_all_responded(),
-                    'unread_comments_count': unread_comments_count  # Dodaj to pole
+                    'unread_comments_count': query.get_unread_comments_count()
                 })
 
             except Exception as query_error:
                 print(f"Błąd podczas przetwarzania zapytania {query.id}: {str(query_error)}")
-                print(f"Szczegóły błędu:\n{traceback.format_exc()}")
-                raise
+                continue # Nie przerywaj całej pętli przez jedno błędne zapytanie
 
         comment_form = CommentForm()  # Utworzenie formularza komentarzy
         return render_template('index.html', query_data=query_data, delete_form=DeleteForm(), comment_form=comment_form)

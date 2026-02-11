@@ -9,6 +9,19 @@ class Config:
     MAIL_PASSWORD = 'L1AkKTiNBjWgN'
     MAIL_DEFAULT_SENDER = 'kable@grupaeltron.pl'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    
+    # Stałe aplikacji
+    WAREHOUSE_LOCATIONS = {
+        'zielonka': 'Zielonka',
+        'bialystok': 'Białystok',
+        'depozyt': 'Depozyt'
+    }
+    
+    RESPONSE_TEMPLATES = {
+        'zielonka': "Dostępne w Zielonce.",
+        'bialystok': "Dostępne w Białymstoku.",
+        'depozyt': "Depozyt."
+    }
 
 class DevelopmentConfig(Config):
     DEBUG = True

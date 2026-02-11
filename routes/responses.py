@@ -100,12 +100,11 @@ def respond(query_id):
                     )
 
                     comments = request.form.get(f'cable_responses-{i}-comments', '')
-                    if delivery_option == 'zielonka':
-                        comments = f"Dostępne w Zielonce. {comments}"
-                    elif delivery_option == 'bialystok':
-                        comments = f"Dostępne w Białymstoku. {comments}"
-                    elif delivery_option == 'depozyt':
-                        comments = f"Depozyt. {comments}"
+                    
+                    # Dodaj odpowiedni prefiks z konfiguracji
+                    prefix = current_app.config['RESPONSE_TEMPLATES'].get(delivery_option)
+                    if prefix:
+                         comments = f"{prefix} {comments}"
 
                     response = CableResponse(
                         cable_id=cable.id,

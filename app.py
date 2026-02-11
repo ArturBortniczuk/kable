@@ -44,7 +44,7 @@ def utility_processor():
         if dt.tzinfo is None:
             dt = dt.replace(tzinfo=timezone.utc)
         local_dt = dt.astimezone(ZoneInfo("Europe/Warsaw"))
-        return (local_dt - timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S')
+        return local_dt.strftime('%Y-%m-%d %H:%M:%S')
 
     return {
         'format_datetime': format_datetime, 
