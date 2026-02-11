@@ -58,7 +58,7 @@ function setupSearch() {
     if (!searchInput) return;
 
     searchInput.addEventListener('keyup', function () {
-        const searchText = this.value.toLowerCase();
+        const searchText = this.value.toLowerCase().trim();
         const rows = document.querySelectorAll('.clickable-row');
 
         rows.forEach(row => {

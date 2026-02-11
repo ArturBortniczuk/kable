@@ -15,8 +15,31 @@
     --text-color: #f8f9fa;
     --card-bg: #343a40;
     --border-color: #495057;
+    /* Keep this for now, but maybe override specific borders */
     --input-bg: #2b3035;
     --input-text: #f8f9fa;
+}
+
+[data-theme="dark"] .card {
+    border-color: #555;
+    /* Explicit darker border for cards */
+}
+
+[data-theme="dark"] .form-control {
+    border-color: #555;
+    color: #fff;
+    /* Ensure text is white */
+}
+
+[data-theme="dark"] .table th {
+    border-bottom-color: #0066cc;
+    /* Keep accent */
+    color: #fff;
+}
+
+[data-theme="dark"] .table td {
+    border-color: #555;
+    /* Darker border for table cells */
 }
 
 body {
