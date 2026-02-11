@@ -2,6 +2,16 @@
 {% block content %}
 
 <div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <h1>Lista Zapytań</h1>
+        </div>
+        <div class="col-md-6">
+            <input type="text" id="searchInput" class="form-control"
+                placeholder="Szukaj (klient, handlowiec, inwestycja)...">
+        </div>
+    </div>
+
     <!-- Desktop header -->
     <div class="d-none d-md-flex justify-content-between align-items-center mb-4">
         <h2>Aktualne zapytania</h2>
@@ -190,6 +200,17 @@
                             <span>Edytuj</span>
                         </a>
                         {% endif %}
+
+                        <form method="POST" action="{{ url_for('queries.duplicate_query', query_id=data.query.id) }}"
+                            style="display: inline-block;"
+                            onsubmit="return confirm('Czy na pewno chcesz zduplikować to zapytanie?');">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button type="submit" class="btn btn-info btn-sm text-white">
+                                <i class="bi bi-files"></i>
+                                <span>Duplikuj</span>
+                            </button>
+                        </form>
+
                         {% if session.get('is_admin') and not data.is_responded %}
                         <a href="{{ url_for('responses.respond', query_id=data.query.id) }}"
                             class="btn btn-primary btn-sm">
@@ -392,6 +413,16 @@
                 <i class="bi bi-pencil"></i> Edytuj
             </a>
             {% endif %}
+
+            <form method="POST" action="{{ url_for('queries.duplicate_query', query_id=data.query.id) }}"
+                style="display: inline-block;"
+                onsubmit="return confirm('Czy na pewno chcesz zduplikować to zapytanie?');">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit" class="btn btn-info btn-sm text-white">
+                    <i class="bi bi-files"></i> Duplikuj
+                </button>
+            </form>
+
             {% if session.get('is_admin') and not data.is_responded %}
             <a href="{{ url_for('responses.respond', query_id=data.query.id) }}" class="btn btn-primary btn-sm">
                 <i class="bi bi-reply"></i> Odpowiedz

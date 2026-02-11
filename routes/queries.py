@@ -56,23 +56,8 @@ def new_query():
 
                     for i, cable_form in enumerate(form.cables):
                         print(f"\nPrzetwarzanie kabla {i+1}:")
-
-                        voltage_value = None
-                        for field_name, value in request.form.items():
-                            if field_name.startswith(f'voltage-{i}'):
-                                if value != 'other':
-                                    voltage_value = value
-                                break
-
-                        cable = Cable(
-                            query_id=query.id,
-                            cable_type=cable_form.cable_type.data,
-                            voltage=voltage_value,
-                            length=cable_form.length.data,
-                            packaging=cable_form.packaging.data,
-                            specific_lengths=cable_form.specific_lengths.data if cable_form.packaging.data == 'dokładne odcinki' else None,
-                            comments=cable_form.comments.data
-                        )
+                        
+                        cable = process_cable_form(cable_form, request.form, i, query.id)
                         db.session.add(cable)
                         print(f"Kabel {i+1} dodany do sesji")
 
@@ -274,3 +259,46 @@ def update_sale_status(query_id):
     except Exception as e:
         print(f"Błąd podczas aktualizacji statusu: {str(e)}")
         return jsonify({'status': 'error', 'message': str(e)}), 500
+@queries_bp.route('/duplicate_query/<int:query_id>', methods=['POST'], endpoint='duplicate_query')
+@login_required
+def duplicate_query(query_id):
+    try:
+        original_query = Query.query.get_or_404(query_id)
+        
+        # Create new query with same details but current date
+        new_query = Query(
+            name=session.get('username'),  # Przypisz do aktualnego użytkownika
+            market=original_query.market,
+            client=original_query.client,
+            investment=original_query.investment,
+            preferred_date=original_query.preferred_date,
+            query_comments=original_query.query_comments
+        )
+        
+        db.session.add(new_query)
+        db.session.flush()  # Get ID
+        
+        # Duplicate cables
+        for original_cable in original_query.cables:
+            new_cable = Cable(
+                query_id=new_query.id,
+                cable_type=original_cable.cable_type,
+                voltage=original_cable.voltage,
+                length=original_cable.length,
+                packaging=original_cable.packaging,
+                specific_lengths=original_cable.specific_lengths,
+                comments=original_cable.comments
+            )
+            db.session.add(new_cable)
+            
+        db.session.commit()
+        
+        send_new_query_notification(new_query)
+        flash('Zapytanie zostało zduplikowane.', 'success')
+        
+    except Exception as e:
+        db.session.rollback()
+        print(f"Błąd podczas duplikowania: {str(e)}")
+        flash('Wystąpił błąd podczas duplikowania zapytania.', 'danger')
+        
+    return redirect(url_for('main.index'))

@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request, session
 from forms import LoginForm
 from config import config
-import pandas as pd
+from models import User
 from utils import generate_password
 
 auth_bp = Blueprint('auth', __name__)
@@ -14,44 +14,28 @@ def login():
     form = LoginForm()
     if request.method == 'POST' and form.validate():
         try:
-            df = pd.read_excel(config.EXCEL_PATH, header=None)
+            user = User.query.filter_by(username=form.username.data).first()
+            
+            # Próba logowania po emailu, jeśli nie znaleziono po nazwie
+            if not user:
+                user = User.query.filter_by(email=form.username.data).first()
 
-            # Specjalne konto admina
-            if form.username.data == 'administrator' and form.password.data == 'admin123':
+            if user and user.check_password(form.password.data):
+                # Zalogowano pomyślnie
                 session['logged_in'] = True
-                session['username'] = 'Administrator'
-                session['is_admin'] = True
-                flash('Zalogowano pomyślnie!', 'success')
+                session['user_id'] = user.id
+                session['username'] = user.username
+                session['email'] = user.email
+                session['is_admin'] = user.is_admin
+                session['can_delete'] = user.can_delete
+                session['market'] = user.market
+                
+                flash(f'Witaj, {user.username}!', 'success')
+                
                 next_url = session.pop('next_url', None)
                 return redirect(next_url or url_for('main.index'))
-
-            if form.username.data == 'superadmin' and form.password.data == 'super123':
-                session['logged_in'] = True
-                session['username'] = 'SuperAdmin'
-                session['is_admin'] = True
-                session['can_delete'] = True
-                flash('Zalogowano pomyślnie!', 'success')
-                next_url = session.pop('next_url', None)
-                return redirect(next_url or url_for('main.index'))
-
-            # Zwykli użytkownicy
-            for _, row in df.iterrows():
-                name = row[0]
-                email = row[2]
-                generated_password = generate_password(name)
-
-                if email == form.username.data and generated_password == form.password.data:
-                    session['logged_in'] = True
-                    session['username'] = name
-                    session['email'] = email
-                    session['is_admin'] = False
-                    session['market'] = row[1]  
-                    flash('Zalogowano pomyślnie!', 'success')
-
-                    next_url = session.pop('next_url', None)
-                    return redirect(next_url or url_for('main.index'))
-
-            flash('Nieprawidłowy email lub hasło.', 'danger')
+            else:
+                flash('Nieprawidłowa nazwa użytkownika lub hasło.', 'danger')
 
         except Exception as e:
             print(f"Błąd podczas logowania: {str(e)}")

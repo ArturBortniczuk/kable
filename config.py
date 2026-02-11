@@ -22,6 +22,10 @@ class Config:
         'bialystok': "Dostępne w Białymstoku.",
         'depozyt': "Depozyt."
     }
+    
+    PACKAGING_TYPES = {
+        'exact': 'dokładne odcinki'
+    }
 
 class DevelopmentConfig(Config):
     DEBUG = True

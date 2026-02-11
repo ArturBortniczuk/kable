@@ -1,8 +1,17 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SelectField, IntegerField, DateField, TextAreaField, FloatField, FieldList, FormField
+from wtforms import StringField, SelectField, IntegerField, DateField, TextAreaField, FloatField, FieldList, FormField, PasswordField, BooleanField
 from wtforms.validators import DataRequired, NumberRange, Length, Optional, ValidationError
 from datetime import datetime
-from flask import request  # Dodaj ten import na początku pliku
+from flask import request
+
+
+class UserForm(FlaskForm):
+    username = StringField('Nazwa użytkownika', validators=[DataRequired()])
+    email = StringField('Email')
+    password = PasswordField('Hasło')
+    market = StringField('Rynek')
+    is_admin = BooleanField('Administrator')
+    can_delete = BooleanField('Może usuwać')  # Dodaj ten import na początku pliku
 
 
 class CableForm(FlaskForm):

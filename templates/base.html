@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,9 +17,10 @@
 
     {% block styles %}{% endblock %}
 </head>
+
 <body>
     <!-- Navigation -->
-<!-- Navigation -->
+    <!-- Navigation -->
     <nav class="navbar navbar-dark bg-primary">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="{{ url_for('main.index') }}">
@@ -39,12 +41,19 @@
                     <i class="bi bi-archive"></i>
                 </a>
 
+                {% if session.get('is_admin') %}
+                <a href="{{ url_for('admin.users_list') }}" class="nav-icon-link" title="Panel Administratora">
+                    <i class="bi bi-gear"></i>
+                </a>
+                {% endif %}
+
                 {% if session.get('logged_in') %}
                 <div class="user-icon-group">
                     <span class="nav-icon-link" title="{{ session.get('username', 'Użytkownik') }}">
                         <i class="bi bi-person-circle"></i>
                         {% if session.get('is_admin') %}
-                        <span class="badge bg-warning text-dark position-absolute top-0 start-100 translate-middle-x">A</span>
+                        <span
+                            class="badge bg-warning text-dark position-absolute top-0 start-100 translate-middle-x">A</span>
                         {% endif %}
                     </span>
                     <a href="{{ url_for('auth.logout') }}" class="nav-icon-link ms-2" title="Wyloguj">
@@ -52,6 +61,12 @@
                     </a>
                 </div>
                 {% endif %}
+                <div class="form-check form-switch ms-3 d-inline-block">
+                    <input class="form-check-input" type="checkbox" id="theme-toggle">
+                    <label class="form-check-label" for="theme-toggle">
+                        <i class="bi bi-moon-stars"></i>
+                    </label>
+                </div>
             </div>
         </div>
     </nav>
@@ -60,14 +75,14 @@
     <div class="container main-content">
         <!-- Flash Messages -->
         {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }} alert-dismissible fade show notification" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                {% endfor %}
-            {% endif %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show notification" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
         {% endwith %}
 
         <!-- Page Content -->
@@ -89,9 +104,9 @@
     <!-- Common JavaScript -->
     <script>
         // Auto-close alerts after 5 seconds
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(function() {
-                document.querySelectorAll('.alert.notification').forEach(function(alert) {
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(function () {
+                document.querySelectorAll('.alert.notification').forEach(function (alert) {
                     if (alert) {
                         bootstrap.Alert.getOrCreateInstance(alert).close();
                     }
@@ -111,24 +126,51 @@
                     is_won: isSold
                 })
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    location.reload();
-                } else {
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        location.reload();
+                    } else {
+                        alert('Wystąpił błąd podczas aktualizacji statusu');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
                     alert('Wystąpił błąd podczas aktualizacji statusu');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Wystąpił błąd podczas aktualizacji statusu');
-            });
+                });
         }
     </script>
 
     <script src="{{ url_for('static', filename='js/form_handlers.js') }}"></script>
 
 
+    <script>
+        // Dark Mode Logic
+        const toggleSwitch = document.querySelector('#theme-toggle');
+        const currentTheme = localStorage.getItem('theme');
+
+        if (currentTheme) {
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            if (currentTheme === 'dark') {
+                if (toggleSwitch) toggleSwitch.checked = true;
+            }
+        }
+
+        function switchTheme(e) {
+            if (e.target.checked) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        if (toggleSwitch) {
+            toggleSwitch.addEventListener('change', switchTheme, false);
+        }
+    </script>
     {% block scripts %}{% endblock %}
 </body>
+
 </html>
