@@ -120,7 +120,7 @@
     </div>
     {% endfor %}
     <div style="text-align: center;">
-        <a href="{{ app_url }}{{ url_for('respond', query_id=query.id) }}" class="button">
+        <a href="{{ app_url }}{{ url_for('responses.respond', query_id=query.id) }}" class="button">
             Przejdź do zapytania
         </a>
     </div>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <style>
@@ -11,13 +12,15 @@
             padding: 0;
             background-color: #f5f5f5;
         }
+
         .container {
             max-width: 600px;
             margin: 0 auto;
             padding: 20px;
             background-color: #ffffff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         .header {
             background-color: #dc3545;
             color: white;
@@ -26,14 +29,17 @@
             text-align: center;
             border-radius: 4px 4px 0 0;
         }
+
         .header h2 {
             margin: 0;
             font-size: 24px;
             font-weight: 500;
         }
+
         .content {
             padding: 20px;
         }
+
         .alert-box {
             background-color: #fff3cd;
             border: 1px solid #ffeeba;
@@ -42,12 +48,14 @@
             margin-bottom: 20px;
             border-radius: 4px;
         }
+
         .details-table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 25px;
             background-color: #fff;
         }
+
         .details-table th {
             background-color: #f8f9fa;
             padding: 12px;
@@ -56,10 +64,12 @@
             width: 30%;
             font-weight: 600;
         }
+
         .details-table td {
             padding: 12px;
             border: 1px solid #e9ecef;
         }
+
         .cable-info {
             background-color: #f8f9fa;
             border-radius: 4px;
@@ -67,6 +77,7 @@
             margin-bottom: 15px;
             border-left: 4px solid #dc3545;
         }
+
         .button {
             display: inline-block;
             padding: 12px 24px;
@@ -77,9 +88,11 @@
             margin-top: 20px;
             font-weight: 500;
         }
+
         .button:hover {
             background-color: #0056b3;
         }
+
         .footer {
             margin-top: 30px;
             padding-top: 20px;
@@ -90,12 +103,13 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
             <h2>Przypomnienie o niezrealizowanym zapytaniu</h2>
         </div>
-        
+
         <div class="content">
             <div class="alert-box">
                 <strong>Uwaga!</strong> To zapytanie oczekuje na odpowiedź już ponad 48 godzin.
@@ -130,7 +144,7 @@
             {% endfor %}
 
             <center>
-                <a href="{{ app_url }}{{ url_for('respond', query_id=query.id) }}" class="button">
+                <a href="{{ app_url }}{{ url_for('responses.respond', query_id=query.id) }}" class="button">
                     Odpowiedz na zapytanie
                 </a>
             </center>
@@ -142,4 +156,5 @@
         </div>
     </div>
 </body>
+
 </html>
