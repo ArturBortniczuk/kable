@@ -18,6 +18,7 @@
     /* Keep this for now, but maybe override specific borders */
     --input-bg: #2b3035;
     --input-text: #f8f9fa;
+    color-scheme: dark;
 }
 
 [data-theme="dark"] .bg-light {
@@ -51,10 +52,22 @@
     /* Explicit darker border for cards */
 }
 
-[data-theme="dark"] .form-control {
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select {
+    background-color: var(--input-bg) !important;
     border-color: #555;
-    color: #fff;
+    color: #fff !important;
     /* Ensure text is white */
+}
+
+/* Fix for Chrome autofill in dark mode */
+[data-theme="dark"] input:-webkit-autofill,
+[data-theme="dark"] input:-webkit-autofill:hover,
+[data-theme="dark"] input:-webkit-autofill:focus,
+[data-theme="dark"] input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px var(--input-bg) inset !important;
+    -webkit-text-fill-color: var(--text-color) !important;
+    transition: background-color 5000s ease-in-out 0s;
 }
 
 [data-theme="dark"] .table th {
