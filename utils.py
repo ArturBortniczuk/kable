@@ -9,6 +9,7 @@ import traceback
 import os
 from config import config
 from extensions import mail
+from models import User
 
 # Globalne zmienne dla danych z Excela
 markets_data = {}
@@ -59,14 +60,6 @@ def login_required(f):
 
 def load_data_from_excel():
     try:
-        # Use config.EXCEL_PATH which is available via import config
-        # But wait, config object import vs app.config
-        # It is safer to use current_app.config if available, or just the imported config class/object
-        # The original code imported config from config.py
-        
-        # We need to make sure we access the right path. 
-        # In original code: df = pd.read_excel(config.EXCEL_PATH, header=None)
-        
         df = pd.read_excel(config.EXCEL_PATH, header=None)
         salespersons_by_market = {}
         markets = set()
@@ -84,6 +77,25 @@ def load_data_from_excel():
             salespersons_by_market[market].append(salesperson)
 
             email_by_name[salesperson] = email
+            
+        # Dodaj użytkowników z bazy danych
+        try:
+            db_users = User.query.all()
+            for user in db_users:
+                # Dodaj rynek i handlowca jeśli nie istnieją
+                if user.market:
+                    markets.add(user.market)
+                    if user.market not in salespersons_by_market:
+                         salespersons_by_market[user.market] = []
+                    if user.username not in salespersons_by_market[user.market]:
+                         salespersons_by_market[user.market].append(user.username)
+                
+                # Dodaj email
+                if user.email:
+                    email_by_name[user.username] = user.email
+                    
+        except Exception as e:
+            print(f"Błąd podczas ładowania użytkowników z bazy: {str(e)}")
 
         return sorted(list(markets)), salespersons_by_market, email_by_name
     except Exception as e:
@@ -206,6 +218,8 @@ def send_response_notification(query, responses):
             except Exception as e:
                 print(f"✗ Błąd wysyłania do handlowca: {str(e)}")
                 print(f"Traceback:\n{traceback.format_exc()}")
+        else:
+            print(f"⚠️ OSTRZEŻENIE: Nie znaleziono adresu email dla handlowca {query.name}. Powiadomienie nie zostało wysłane.")
 
         print("\nWysyłanie do odbiorcy...")
         logistics_msg = Message(
