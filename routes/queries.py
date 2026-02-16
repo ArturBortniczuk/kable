@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request, session, jsonify, current_app
-from forms import QueryForm
+from forms import QueryForm, CommentForm
 from models import Query, Cable
 from extensions import db
 from utils import login_required, load_data_from_excel, send_new_query_notification
@@ -329,3 +329,14 @@ def duplicate_query(query_id):
         flash('Wystąpił błąd podczas duplikowania zapytania.', 'danger')
         
     return redirect(url_for('main.index'))
+@queries_bp.route('/query/<int:query_id>', endpoint='details')
+@login_required
+def query_details(query_id):
+    query = Query.query.get_or_404(query_id)
+    comment_form = CommentForm()
+
+    return render_template(
+        'query_details.html',
+        query=query,
+        comment_form=comment_form
+    )

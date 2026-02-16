@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="query-details-page">
+    <div class="mb-4">
+        <a href="{{ url_for('main.index') }}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Powrót do listy
+        </a>
+    </div>
+
+    <div class="card mb-4 query-card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">
+                Data wpłynięcia: {{ query.date_submitted.strftime('%Y-%m-%d %H:%M') }}
+                {% if query.is_responded %}
+                <span class="badge bg-success ms-2">Odpowiedziano</span>
+                {% else %}
+                <span class="badge bg-warning text-dark ms-2">Oczekuje</span>
+                {% endif %}
+            </h5>
+            <div class="text-muted">
+                {{ query.get_time_since_submission_display() }}
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <p><strong>Handlowiec:</strong> {{ query.name }}</p>
+                    <p><strong>Klient:</strong> {{ query.client }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Inwestycja:</strong> {{ query.investment or '-' }}</p>
+                    <p><strong>Preferowana data:</strong> {{ query.preferred_date or '-' }}</p>
+                </div>
+            </div>
+
+            {% if query.query_comments %}
+            <div class="alert alert-info">
+                <strong>Uwagi do zapytania:</strong>
+                <p class="mb-0">{{ query.query_comments }}</p>
+            </div>
+            {% endif %}
+
+            <h6 class="mt-4 mb-3">Szczegóły kabli:</h6>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Typ kabla</th>
+                            <th>Długość</th>
+                            <th>Napięcie</th>
+                            <th>Pakowanie</th>
+                            <th>Uwagi</th>
+                            <th>Status odpowiedzi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cable in query.cables %}
+                        <tr>
+                            <td>{{ cable.cable_type }}</td>
+                            <td>{{ cable.length }}m</td>
+                            <td>{{ cable.voltage or '-' }}</td>
+                            <td>
+                                {{ cable.packaging }}
+                                {% if cable.specific_lengths %}
+                                <br><small class="text-muted">({{ cable.specific_lengths }})</small>
+                                {% endif %}
+                            </td>
+                            <td>{{ cable.comments or '-' }}</td>
+                            <td>
+                                {% if cable.response %}
+                                <span class="text-success"><i class="bi bi-check-circle-fill"></i> Odpowiedziano</span>
+                                <div class="small mt-1">
+                                    Cena klienta: {{ cable.response.price_per_meter_client }} PLN<br>
+                                    Termin: {{ cable.response.delivery_date_start }}
+                                </div>
+                                {% else %}
+                                <span class="text-warning"><i class="bi bi-hourglass-split"></i> Oczekuje</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sekcja komentarzy -->
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0"><i class="bi bi-chat-dots"></i> Komentarze</h5>
+        </div>
+        <div class="card-body">
+            <div class="comments-list mb-4" style="max-height: 400px; overflow-y: auto;">
+                {% if query.comments %}
+                {% for comment in query.comments %}
+                <div class="card mb-2 {% if comment.author == session.get('username') %}border-primary{% endif %}">
+                    <div class="card-body py-2">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <strong>{{ comment.author }}</strong>
+                            <small class="text-muted">{{ comment.created_at.strftime('%d.%m.%Y %H:%M') }}</small>
+                        </div>
+                        <p class="mb-0">{{ comment.content }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p class="text-muted text-center py-3">Brak komentarzy.</p>
+                {% endif %}
+            </div>
+
+            <form action="{{ url_for('comments.add_comment', query_id=query.id) }}" method="POST">
+                {{ comment_form.hidden_tag() }}
+                <input type="hidden" name="query_id" value="{{ query.id }}">
+                <div class="input-group">
+                    {{ comment_form.content(class="form-control", placeholder="Napisz komentarz...", rows="2") }}
+                    <button class="btn btn-primary" type="submit">
+                        <i class="bi bi-send"></i> Wyślij
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
