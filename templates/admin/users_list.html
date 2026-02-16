@@ -4,9 +4,14 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Zarządzanie Użytkownikami</h2>
-        <a href="{{ url_for('admin.new_user') }}" class="btn btn-primary">
-            <i class="bi bi-person-plus"></i> Dodaj użytkownika
-        </a>
+        <div>
+            <a href="{{ url_for('admin.send_weekly_report') }}" class="btn btn-info me-2">
+                <i class="bi bi-envelope"></i> Wyślij Raport Tygodniowy
+            </a>
+            <a href="{{ url_for('admin.new_user') }}" class="btn btn-primary">
+                <i class="bi bi-person-plus"></i> Dodaj użytkownika
+            </a>
+        </div>
     </div>
 
     <div class="card">

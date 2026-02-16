@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f8f9fa;
+        }
+
+        .stat-value {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .problem {
+            color: #e74c3c;
+        }
+
+        .success {
+            color: #27ae60;
+        }
+
+        .warning {
+            color: #f39c12;
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #7f8c8d;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 6px 12px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Raport Tygodniowy</h1>
+        <p>Podsumowanie okresu: <strong>{{ stats.start_date.strftime('%d.%m') }} - {{
+                stats.end_date.strftime('%d.%m.%Y') }}</strong></p>
+
+        <h2>📊 Statystyki Główne</h2>
+        <table>
+            <tr>
+                <td>Liczba zapytań</td>
+                <td class="stat-value">{{ stats.total_queries }}</td>
+            </tr>
+            <tr>
+                <td>Sprzedane</td>
+                <td class="stat-value success">{{ stats.sold_queries }}</td>
+            </tr>
+            <tr>
+                <td>Niesprzedane (Utracone)</td>
+                <td class="stat-value problem">{{ stats.lost_queries }}</td>
+            </tr>
+            <tr>
+                <td>Oczekujące</td>
+                <td class="stat-value warning">{{ stats.pending_queries }}</td>
+            </tr>
+            <tr>
+                <td>Średni czas odpowiedzi</td>
+                <td class="stat-value">{{ stats.avg_response_time }} h</td>
+            </tr>
+        </table>
+
+        <h2>⚠️ Problemy i Do Wyjaśnienia</h2>
+
+        {% if stats.unanswered_queries %}
+        <p><strong>Zapytania bez pełnej odpowiedzi ({{ stats.unanswered_queries|length }}):</strong></p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Klient</th>
+                    <th>Data wpłynięcia</th>
+                    <th>Akcja</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for query in stats.unanswered_queries %}
+                <tr>
+                    <td>{{ query.client }} <br><small>({{ query.name }})</small></td>
+                    <td>{{ query.date_submitted.strftime('%d.%m %H:%M') }}</td>
+                    <td><a href="{{ app_url }}/responses/{{ query.id }}" class="btn">Zobacz</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="success">Brak zaległych zapytań bez odpowiedzi. Dobra robota!</p>
+        {% endif %}
+
+        <div class="footer">
+            <p>Wygenerowano automatycznie przez system Kable.</p>
+        </div>
+    </div>
+</body>
+
+</html>

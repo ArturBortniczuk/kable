@@ -97,3 +97,35 @@ def delete_user(user_id):
         flash('Błąd podczas usuwania użytkownika.', 'danger')
         
     return redirect(url_for('admin.users_list'))
+
+@admin_bp.route('/reports/weekly/send', methods=['GET'], endpoint='send_weekly_report')
+def send_weekly_report():
+    from services.reports import get_weekly_stats
+    from flask_mail import Message
+    from extensions import mail
+    import traceback # Added import
+    
+    try:
+        stats = get_weekly_stats()
+        
+        html_content = render_template(
+            'emails/weekly_report.html',
+            stats=stats,
+            app_url=request.host_url.rstrip('/')
+        )
+        
+        msg = Message(
+            subject=f'Raport Tygodniowy Kable: {stats["start_date"].strftime("%d.%m")} - {stats["end_date"].strftime("%d.%m")}',
+            recipients=['a.bortniczuk@grupaeltron.pl'],
+            html=html_content
+        )
+        
+        mail.send(msg)
+        flash('Raport tygodniowy został wysłany na a.bortniczuk@grupaeltron.pl', 'success')
+        
+    except Exception as e:
+        print(f"Error sending weekly report: {e}")
+        traceback.print_exc()
+        flash(f'Błąd podczas wysyłania raportu: {str(e)}', 'danger')
+        
+    return redirect(url_for('admin.users_list'))
