@@ -208,6 +208,12 @@ body {
     border-top: 1px solid #dee2e6;
 }
 
+[data-theme="dark"] .action-row {
+    background-color: var(--input-bg);
+    border-top-color: var(--border-color);
+    color: var(--text-color);
+}
+
 .action-row.show {
     display: table-row !important;
 }
