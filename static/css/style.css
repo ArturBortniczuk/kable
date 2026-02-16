@@ -60,6 +60,7 @@
     /* Ensure text is white */
 }
 
+/* Dark mode fixes */
 [data-theme="dark"] .bg-white {
     background-color: var(--card-bg) !important;
     color: var(--text-color) !important;
