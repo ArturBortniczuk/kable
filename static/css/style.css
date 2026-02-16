@@ -58,6 +58,7 @@
 }
 
 [data-theme="dark"] .table th {
+    background-color: var(--input-bg);
     border-bottom-color: #0066cc;
     /* Keep accent */
     color: #fff;
