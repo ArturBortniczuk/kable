@@ -105,14 +105,10 @@ def send_weekly_report():
     from flask_mail import Message
     from extensions import mail
     import traceback 
-    from datetime import datetime
     
     try:
-        # TEST: Hardcoded dates for July 2025
-        start_date = datetime(2025, 7, 1)
-        end_date = datetime(2025, 7, 31, 23, 59, 59)
-        
-        stats = get_weekly_stats(start_date=start_date, end_date=end_date)
+        # Defaults to last 7 days
+        stats = get_weekly_stats()
         
         html_content = render_template(
             'emails/weekly_report.html',
@@ -121,7 +117,7 @@ def send_weekly_report():
         )
         
         msg = Message(
-            subject=f'Raport Kable: {stats["start_date"].strftime("%d.%m.%Y")} - {stats["end_date"].strftime("%d.%m.%Y")}',
+            subject=f'Raport Tygodniowy Kable: {stats["start_date"].strftime("%d.%m")} - {stats["end_date"].strftime("%d.%m")}',
             recipients=['a.bortniczuk@grupaeltron.pl'],
             html=html_content
         )
