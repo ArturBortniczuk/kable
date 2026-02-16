@@ -3,16 +3,24 @@ from zoneinfo import ZoneInfo
 from models import Query, CableResponse
 from sqlalchemy import func
 
-def get_weekly_stats():
+def get_weekly_stats(start_date=None, end_date=None):
     """
-    Agreguje statystyki z ostatnich 7 dni.
+    Agreguje statystyki z zadanego okresu (domyślnie ostatnie 7 dni).
     Zwraca słownik z danymi do raportu.
     """
     now = datetime.now(ZoneInfo("Europe/Warsaw"))
-    week_ago = now - timedelta(days=7)
+    
+    if end_date is None:
+        end_date = now
+    
+    if start_date is None:
+        start_date = now - timedelta(days=7)
 
-    # Pobierz zapytania z ostatniego tygodnia
-    queries = Query.query.filter(Query.date_submitted >= week_ago).all()
+    # Pobierz zapytania z zadanego okresu
+    queries = Query.query.filter(
+        Query.date_submitted >= start_date,
+        Query.date_submitted <= end_date
+    ).all()
 
     total_queries = len(queries)
     sold_queries = 0
@@ -61,8 +69,8 @@ def get_weekly_stats():
         avg_response_time = sum(response_times) / len(response_times)
 
     return {
-        'start_date': week_ago,
-        'end_date': now,
+        'start_date': start_date,
+        'end_date': end_date,
         'total_queries': total_queries,
         'sold_queries': sold_queries,
         'lost_queries': lost_queries,

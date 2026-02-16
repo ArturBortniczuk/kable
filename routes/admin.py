@@ -99,14 +99,20 @@ def delete_user(user_id):
     return redirect(url_for('admin.users_list'))
 
 @admin_bp.route('/reports/weekly/send', methods=['GET'], endpoint='send_weekly_report')
+@admin_bp.route('/reports/weekly/send', methods=['GET'], endpoint='send_weekly_report')
 def send_weekly_report():
     from services.reports import get_weekly_stats
     from flask_mail import Message
     from extensions import mail
-    import traceback # Added import
+    import traceback 
+    from datetime import datetime
     
     try:
-        stats = get_weekly_stats()
+        # TEST: Hardcoded dates for July 2025
+        start_date = datetime(2025, 7, 1)
+        end_date = datetime(2025, 7, 31, 23, 59, 59)
+        
+        stats = get_weekly_stats(start_date=start_date, end_date=end_date)
         
         html_content = render_template(
             'emails/weekly_report.html',
@@ -115,7 +121,7 @@ def send_weekly_report():
         )
         
         msg = Message(
-            subject=f'Raport Tygodniowy Kable: {stats["start_date"].strftime("%d.%m")} - {stats["end_date"].strftime("%d.%m")}',
+            subject=f'Raport Kable: {stats["start_date"].strftime("%d.%m.%Y")} - {stats["end_date"].strftime("%d.%m.%Y")}',
             recipients=['a.bortniczuk@grupaeltron.pl'],
             html=html_content
         )
