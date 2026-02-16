@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, request, session
+from flask import Blueprint, render_template, redirect, url_for, flash, request, session, current_app
 from forms import ResponseForm, CableResponseForm
 from models import Query, CableResponse
 from extensions import db
