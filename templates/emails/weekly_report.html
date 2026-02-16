@@ -127,7 +127,7 @@
                 <tr>
                     <td>{{ query.client }} <br><small>({{ query.name }})</small></td>
                     <td>{{ query.date_submitted.strftime('%d.%m %H:%M') }}</td>
-                    <td><a href="{{ app_url }}/responses/{{ query.id }}" class="btn">Zobacz</a></td>
+                    <td><a href="{{ app_url }}/response/{{ query.id }}" class="btn">Zobacz</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
