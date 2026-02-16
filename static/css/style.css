@@ -208,7 +208,8 @@ body {
     border-top: 1px solid #dee2e6;
 }
 
-[data-theme="dark"] .action-row {
+[data-theme="dark"] .action-row,
+[data-theme="dark"] .action-row td {
     background-color: var(--input-bg);
     border-top-color: var(--border-color);
     color: var(--text-color);
