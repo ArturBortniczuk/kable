@@ -200,6 +200,14 @@ def send_response_notification(query, responses):
             print(f"Cena klienta: {response.price_per_meter_client}")
             print(f"Cena zakupu: {response.price_per_meter_purchase}")
 
+        # Fallback to DB if email not found in mapping
+        if not salesperson_email:
+            print(f"Email not found in cache for {query.name}, checking database...")
+            user = User.query.filter_by(username=query.name).first()
+            if user and user.email:
+                salesperson_email = user.email
+                print(f"Found email in DB: {salesperson_email}")
+
         if salesperson_email:
             try:
                 print(f"\nWysyłanie do handlowca ({salesperson_email})...")

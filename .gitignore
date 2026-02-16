@@ -1,0 +1,8 @@
+# Database
+*.db
+instance/*.db
+__pycache__/
+*.py[cod]
+.env
+venv/
+myenv/
