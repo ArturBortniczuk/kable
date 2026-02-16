@@ -8,6 +8,33 @@ import json
 
 queries_bp = Blueprint('queries', __name__)
 
+def process_cable_form(cable_form, request_form, index, query_id):
+    """
+    Helper function to process cable form data and create a Cable object.
+    Parameters:
+        cable_form: The WTForm subform for the cable
+        request_form: The raw request.form dictionary (for custom fields like voltage)
+        index: The index of the cable in the form list
+        query_id: The ID of the parent query
+    """
+    voltage_value = None
+    voltage_key = f'voltage-{index}'
+    
+    if voltage_key in request_form:
+        val = request_form[voltage_key]
+        if val != 'other':
+            voltage_value = val
+
+    return Cable(
+        query_id=query_id,
+        cable_type=cable_form.cable_type.data,
+        voltage=voltage_value,
+        length=cable_form.length.data,
+        packaging=cable_form.packaging.data,
+        specific_lengths=cable_form.specific_lengths.data if cable_form.packaging.data == 'dokładne odcinki' else None,
+        comments=cable_form.comments.data
+    )
+
 @queries_bp.route('/new-query', methods=['GET', 'POST'], endpoint='new_query')
 @login_required
 def new_query():
