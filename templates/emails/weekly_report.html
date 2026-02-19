@@ -118,20 +118,44 @@
             <thead>
                 <tr>
                     <th>Klient</th>
-                    <th>Data wpłynięcia</th>
-                    <th>Akcja</th>
+                    <th>Typy kabli</th>
+                    <th>Komentarze</th>
                 </tr>
             </thead>
             <tbody>
                 {% for query in stats.unanswered_queries %}
                 <tr>
-                    <td>{{ query.client }} <br><small>({{ query.name }})</small></td>
-                    <td>{{ query.date_submitted.strftime('%d.%m %H:%M') }}</td>
-                    <td><a href="{{ app_url }}/query/{{ query.id }}" class="btn">Zobacz</a></td>
+                    <td>
+                        {{ query.client }} <br>
+                        <small>({{ query.name }})</small> <br>
+                        <small style="color: #7f8c8d;">{{ query.date_submitted.strftime('%d.%m %H:%M') }}</small>
+                    </td>
+                    <td>
+                        {% for cable in query.cables %}
+                        <div>• {{ cable.cable_type }}</div>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% if query.comments %}
+                        {% for comment in query.comments %}
+                        <div
+                            style="margin-bottom: 5px; font-size: 0.9em; border-left: 2px solid #ddd; padding-left: 5px;">
+                            <strong>{{ comment.author }}:</strong> {{ comment.content }}
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <span style="color: #999; font-style: italic;">Brak komentarzy</span>
+                        {% endif %}
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="{{ app_url }}/?status=pending" class="btn" style="padding: 10px 20px; font-size: 1.1em;">Przejdź do
+                oczekujących zapytań</a>
+        </div>
         {% else %}
         <p class="success">Brak zaległych zapytań bez odpowiedzi. Dobra robota!</p>
         {% endif %}

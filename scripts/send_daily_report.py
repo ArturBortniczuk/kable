@@ -62,8 +62,8 @@ def send_daily_report():
             if len(sys.argv) > 1 and sys.argv[1] == '--dry-run':
                 print(f"Subject: {subject}")
                 print(f"Recipients: {recipients}")
-                print("HTML Content Preview (first 500 chars):")
-                print(html_content[:500])
+                print("HTML Content Preview:")
+                print(html_content)
                 logging.info("Dry run completed.")
                 return
 
