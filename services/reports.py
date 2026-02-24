@@ -49,14 +49,14 @@ def get_weekly_stats(start_date=None, end_date=None):
     lost_queries = 0
     response_times = []
 
-    for query in queries_this_year:
+    for query in all_queries:
         # Status
         if query.is_won is True:
             sold_queries += 1
         elif query.is_won is False:
             lost_queries += 1
 
-        # Dla zakończonych (w pełni odpowiedzianych) w tym roku oblicz czas odpowiedzi
+        # Dla zakończonych (w pełni odpowiedzianych) oblicz czas odpowiedzi
         if query.is_all_responded():
             # Oblicz czas odpowiedzi dla zapytań zakończonych (lub częściowo)
             # Bierzemy pod uwagę czas do OSTATNIEJ odpowiedzi
