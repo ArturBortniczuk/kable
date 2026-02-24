@@ -14,43 +14,50 @@ def get_weekly_stats(start_date=None, end_date=None):
         end_date = now
     
     if start_date is None:
-        start_date = now - timedelta(days=7)
+        start_date = now - timedelta(days=now.weekday())
+        start_date = start_date.replace(hour=0, minute=0, second=0, microsecond=0)
+
+    start_of_year = datetime(now.year, 1, 1, tzinfo=ZoneInfo("Europe/Warsaw"))
 
     # Pobierz wszystkie zapytania
     all_queries = Query.query.all()
-
-    total_queries = len(all_queries)
     
-    # Zapytania z tego tygodnia
+    queries_this_year = []
+    unanswered_queries = []
     total_queries_weekly = 0
+
     for q in all_queries:
+        # Zbieraj wszystkie nieodpowiedziane niezależnie od daty
+        if not q.is_all_responded():
+            unanswered_queries.append(q)
+            
         if q.date_submitted:
             q_date = q.date_submitted
             if q_date.tzinfo is None:
                 q_date = q_date.replace(tzinfo=ZoneInfo("Europe/Warsaw"))
+            
+            if start_of_year <= q_date <= end_date:
+                queries_this_year.append(q)
+                
             if start_date <= q_date <= end_date:
                 total_queries_weekly += 1
 
+    total_queries = len(queries_this_year)
+    pending_queries = len(unanswered_queries)
+    
     sold_queries = 0
     lost_queries = 0
-    pending_queries = 0
-    unanswered_queries = []
-    
     response_times = []
 
-    for query in all_queries:
+    for query in queries_this_year:
         # Status
         if query.is_won is True:
             sold_queries += 1
         elif query.is_won is False:
             lost_queries += 1
-        else:
-            pending_queries += 1
 
-        # Sprawdź czy odpowiedziano na wszystkie kable
-        if not query.is_all_responded():
-            unanswered_queries.append(query)
-        else:
+        # Dla zakończonych (w pełni odpowiedzianych) w tym roku oblicz czas odpowiedzi
+        if query.is_all_responded():
             # Oblicz czas odpowiedzi dla zapytań zakończonych (lub częściowo)
             # Bierzemy pod uwagę czas do OSTATNIEJ odpowiedzi
             last_response_date = None
