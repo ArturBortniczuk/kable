@@ -16,13 +16,21 @@ def get_weekly_stats(start_date=None, end_date=None):
     if start_date is None:
         start_date = now - timedelta(days=7)
 
-    # Pobierz zapytania z zadanego okresu
-    queries = Query.query.filter(
-        Query.date_submitted >= start_date,
-        Query.date_submitted <= end_date
-    ).all()
+    # Pobierz wszystkie zapytania
+    all_queries = Query.query.all()
 
-    total_queries = len(queries)
+    total_queries = len(all_queries)
+    
+    # Zapytania z tego tygodnia
+    total_queries_weekly = 0
+    for q in all_queries:
+        if q.date_submitted:
+            q_date = q.date_submitted
+            if q_date.tzinfo is None:
+                q_date = q_date.replace(tzinfo=ZoneInfo("Europe/Warsaw"))
+            if start_date <= q_date <= end_date:
+                total_queries_weekly += 1
+
     sold_queries = 0
     lost_queries = 0
     pending_queries = 0
@@ -30,7 +38,7 @@ def get_weekly_stats(start_date=None, end_date=None):
     
     response_times = []
 
-    for query in queries:
+    for query in all_queries:
         # Status
         if query.is_won is True:
             sold_queries += 1
@@ -72,6 +80,7 @@ def get_weekly_stats(start_date=None, end_date=None):
         'start_date': start_date,
         'end_date': end_date,
         'total_queries': total_queries,
+        'total_queries_weekly': total_queries_weekly,
         'sold_queries': sold_queries,
         'lost_queries': lost_queries,
         'pending_queries': pending_queries,

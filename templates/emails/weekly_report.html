@@ -89,11 +89,15 @@
         <h2>📊 Statystyki Główne</h2>
         <table>
             <tr>
-                <td>Liczba zapytań</td>
+                <td>Liczba zapytań ogólnie</td>
                 <td class="stat-value">{{ stats.total_queries }}</td>
             </tr>
             <tr>
-                <td>Sprzedane</td>
+                <td>Liczba zapytań w tym tygodniu</td>
+                <td class="stat-value">{{ stats.total_queries_weekly }}</td>
+            </tr>
+            <tr>
+                <td>Sprzedane (z całego okresu)</td>
                 <td class="stat-value success">{{ stats.sold_queries }}</td>
             </tr>
             <tr>
